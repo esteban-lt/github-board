@@ -8,19 +8,15 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-export function NavMain({ items }: { items: NavLink[] }) {
+export function NavOrganization({ items }: { items: NavLink[] }) {
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Application</SidebarGroupLabel>
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+      <SidebarGroupLabel>Organization</SidebarGroupLabel>
 
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton
-              asChild
-              isActive={item.isActive}
-              tooltip={item.title}
-            >
+            <SidebarMenuButton asChild isActive={item.isActive} tooltip={item.title}>
               <a href={item.url}>
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>

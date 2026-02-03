@@ -2,20 +2,20 @@
 
 import * as React from "react"
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
+  Activity,
+  BookMarked,
+  FolderOpen,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
+  Layers,
+  LayoutDashboard,
+  Puzzle,
   Settings2,
-  SquareTerminal,
+  UsersRound,
+  Zap,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavProjects } from "@/components/nav-projects"
+import { NavOrganization } from "@/components/nav-organization"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
@@ -26,132 +26,67 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 
-// This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "Esteban Ledezma",
+    email: "estebanlt@gmail.com",
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "GitHub Board",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
+      role: "Team Owner",
     },
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Dashboard",
       url: "#",
-      icon: SquareTerminal,
+      icon: LayoutDashboard,
       isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
     },
     {
-      title: "Models",
+      title: "Repositories",
       url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
+      icon: BookMarked,
     },
     {
-      title: "Documentation",
+      title: "Activity Feed",
       url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
+      icon: Activity,
+    },
+    {
+      title: "Automations",
+      url: "#",
+      icon: Zap,
+    },
+    {
+      title: "Integrations",
+      url: "#",
+      icon: Puzzle,
     },
     {
       title: "Settings",
       url: "#",
       icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
     },
   ],
   projects: [
     {
-      name: "Design Engineering",
+      title: "Teams",
       url: "#",
-      icon: Frame,
+      icon: Layers,
     },
     {
-      name: "Sales & Marketing",
+      title: "Projects",
       url: "#",
-      icon: PieChart,
+      icon: FolderOpen,
     },
     {
-      name: "Travel",
+      title: "Users",
       url: "#",
-      icon: Map,
+      icon: UsersRound,
     },
   ],
 }
@@ -164,7 +99,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavProjects projects={data.projects} />
+        <NavOrganization items={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
