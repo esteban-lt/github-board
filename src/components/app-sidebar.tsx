@@ -42,33 +42,32 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: LayoutDashboard,
-      isActive: true,
-    },
-    {
-      title: "Repositories",
-      url: "#",
-      icon: BookMarked,
     },
     {
       title: "Activity Feed",
-      url: "#",
+      url: "/activity-feed",
       icon: Activity,
     },
     {
+      title: "Repositories",
+      url: "/repositories",
+      icon: BookMarked,
+    },
+    {
       title: "Automations",
-      url: "#",
+      url: "/automations",
       icon: Zap,
     },
     {
       title: "Integrations",
-      url: "#",
+      url: "/integrations",
       icon: Puzzle,
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: Settings2,
     },
   ],

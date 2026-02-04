@@ -1,6 +1,6 @@
 const Index = () => {
   return (
-    <h2>Repositories</h2>
+    <h1>Repositories</h1>
   );
 }
 
