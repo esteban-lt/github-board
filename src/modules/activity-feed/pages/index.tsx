@@ -1,6 +1,6 @@
 const Index = () => {
   return (
-    <h1>Dashboard</h1>
+    <h1>Activity Feed</h1>
   );
 };
 
