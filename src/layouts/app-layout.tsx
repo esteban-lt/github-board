@@ -2,14 +2,14 @@ import { Outlet } from "react-router";
 
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { LayoutHeader } from "@/components/custom/layout-header";
+import { Header } from "@/components/app-layout/header";
 
 const AppLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <LayoutHeader />    
+        <Header />    
         <section className="p-4">
           <Outlet />
         </section>
