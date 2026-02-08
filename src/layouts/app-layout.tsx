@@ -10,7 +10,7 @@ const AppLayout = () => {
       <AppSidebar />
       <SidebarInset>
         <Header />    
-        <section className="p-4">
+        <section className="flex flex-col gap-4 p-4">
           <Outlet />
         </section>
       </SidebarInset>
