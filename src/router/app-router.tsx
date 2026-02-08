@@ -6,6 +6,7 @@ import DashboardPage from '@/modules/dashboard/pages';
 
 const ActivityFeedPage = lazy(() => import('@/modules/activity-feed/pages'));
 const RepositoriesPage = lazy(() => import('@/modules/repositories/pages'));
+const ConnectRepositoryPage = lazy(() => import('@/modules/repositories/connect/pages'));
 const AutomationsPage = lazy(() => import('@/modules/automations/pages'));
 const IntegrationsPage = lazy(() => import('@/modules/integrations/pages'));
 const SettingPage = lazy(() => import('@/modules/settings/pages'));
@@ -25,7 +26,16 @@ export const appRouter = createBrowserRouter([
       },
       {
         path: 'repositories',
-        element: <RepositoriesPage />,
+        children: [
+          {
+            index: true,
+            element: <RepositoriesPage />,
+          },
+          {
+            path: 'connect',
+            element: <ConnectRepositoryPage />,
+          },
+        ],
       },
       {
         path: 'automations',
