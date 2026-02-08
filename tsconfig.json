@@ -11,7 +11,20 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@activity-feed/*": ["./src/modules/activity-feed/*"],
+      "@automations/*": ["./src/modules/automations/*"],
+      "@dashboard/*": ["./src/modules/dashboard/*"],
+      "@integrations/*": ["./src/modules/integrations/*"],
+      "@repositories/*": ["./src/modules/repositories/*"],
+      "@settings/*": ["./src/modules/settings/*"],
+      "@router/*": ["./src/router/*"]
     }
   }
 }
