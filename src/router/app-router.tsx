@@ -1,15 +1,15 @@
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router';
 
-import AppLayout from '@/layouts/app-layout';
-import DashboardPage from '@/modules/dashboard/pages';
+import AppLayout from '@layouts/app-layout';
+import DashboardPage from '@dashboard/pages';
 
-const ActivityFeedPage = lazy(() => import('@/modules/activity-feed/pages'));
-const RepositoriesPage = lazy(() => import('@/modules/repositories/pages'));
-const ConnectRepositoryPage = lazy(() => import('@/modules/repositories/connect/pages'));
-const AutomationsPage = lazy(() => import('@/modules/automations/pages'));
-const IntegrationsPage = lazy(() => import('@/modules/integrations/pages'));
-const SettingPage = lazy(() => import('@/modules/settings/pages'));
+const ActivityFeedPage = lazy(() => import('@activity-feed/pages'));
+const RepositoriesPage = lazy(() => import('@repositories/pages'));
+const ConnectRepositoryPage = lazy(() => import('@repositories/connect/pages'));
+const AutomationsPage = lazy(() => import('@automations/pages'));
+const IntegrationsPage = lazy(() => import('@integrations/pages'));
+const SettingPage = lazy(() => import('@settings/pages'));
 
 export const appRouter = createBrowserRouter([
   {

@@ -11,7 +11,20 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@interfaces': path.resolve(__dirname, './src/interfaces'),
+      '@layouts': path.resolve(__dirname, './src/layouts'),
+      '@lib': path.resolve(__dirname, './src/lib'),
+      '@modules': path.resolve(__dirname, './src/modules'),
+      '@activity-feed': path.resolve(__dirname, './src/modules/activity-feed'),
+      '@automations': path.resolve(__dirname, './src/modules/automations'),
+      '@dashboard': path.resolve(__dirname, './src/modules/dashboard'),
+      '@integrations': path.resolve(__dirname, './src/modules/integrations'),
+      '@repositories': path.resolve(__dirname, './src/modules/repositories'),
+      '@settings': path.resolve(__dirname, './src/modules/settings'),
+      '@router': path.resolve(__dirname, './src/router'),
     },
   },
 })
