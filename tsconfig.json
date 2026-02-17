@@ -19,6 +19,7 @@
       "@lib/*": ["./src/lib/*"],
       "@modules/*": ["./src/modules/*"],
       "@activity-feed/*": ["./src/modules/activity-feed/*"],
+      "@auth/*": ["./src/modules/auth/*"],
       "@automations/*": ["./src/modules/automations/*"],
       "@dashboard/*": ["./src/modules/dashboard/*"],
       "@integrations/*": ["./src/modules/integrations/*"],

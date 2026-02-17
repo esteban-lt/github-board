@@ -19,6 +19,7 @@ export default defineConfig({
       '@lib': path.resolve(__dirname, './src/lib'),
       '@modules': path.resolve(__dirname, './src/modules'),
       '@activity-feed': path.resolve(__dirname, './src/modules/activity-feed'),
+      '@auth': path.resolve(__dirname, './src/modules/auth'),
       '@automations': path.resolve(__dirname, './src/modules/automations'),
       '@dashboard': path.resolve(__dirname, './src/modules/dashboard'),
       '@integrations': path.resolve(__dirname, './src/modules/integrations'),
