@@ -14,11 +14,11 @@ export const RepositoryCard = ({ repository }: Props) => {
     <Card>
       <CardHeader className="flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <span className="bg-blue-50 border p-2 rounded-lg">
+          <span className="bg-primary/5 border p-2 rounded-lg">
             {
               (repository.isPrivate)
-              ? <Lock className="text-blue-700" />
-              : <Unlock className="text-blue-700" />
+              ? <Lock className="text-primary" />
+              : <Unlock className="text-primary" />
             }
           </span>
           <div>
@@ -70,21 +70,21 @@ export const RepositoryCard = ({ repository }: Props) => {
   );
 }
 
-const GitHubStat = ({
-  icon,
-  value,
-  label,
-  className,
-}: {
+interface GitHubStat {
   icon: React.ReactNode;
   value: number;
   label: string;
-  className?: string;
-}) => {
+}
+
+const GitHubStat = ({
+  icon,
+  value,
+  label
+}: GitHubStat) => {
 
   return (
     <div className="flex items-center gap-2">
-      <span className={`${className}`}>{icon}</span>
+      <span>{icon}</span>
       <div className="flex items-baseline gap-1">
         <span className="text-sm font-semibold text-foreground">{value}</span>
         <span className="text-sm text-muted-foreground">{label}</span>

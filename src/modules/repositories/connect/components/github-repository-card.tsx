@@ -1,15 +1,6 @@
+import type { GitHubRepository } from "../interfaces/github-repository";
 import { Badge } from "@/components/ui/badge";
 import { Check, GitFork, Lock, Star, Unlock } from "lucide-react";
-
-export interface GitHubRepository {
-  id: string;
-  fullName: string;
-  description: string;
-  stars: number;
-  forks: number;
-  language: string;
-  isPrivate: boolean;
-}
 
 interface Props {
   repository: GitHubRepository;
@@ -17,28 +8,25 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
-export const GitHubRepositoryItem = ({ repository, isSelected, onSelect }: Props) => {
+export const GitHubRepositoryCard = ({ repository, isSelected, onSelect }: Props) => {
   return (
     <div
       onClick={() => onSelect(repository.id)}
-      className={`flex items-center justify-between p-4 rounded-lg border cursor-pointer transition-all hover:border-primary/50 ${
-        isSelected ? "border-primary bg-primary/5 ring-1 ring-primary" : "border-border"
-      }`}
+      className={`
+        flex items-center justify-between p-4 rounded-md border transition-all hover:border-primary/25
+        ${ isSelected ? "border-primary/50 hover:border-primary/50 bg-primary/5" : "border-border" }
+      `}
     >
       <div className="flex items-center gap-4 min-w-0">
-        <div
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
-            isSelected ? "bg-primary/20" : "bg-muted"
-          }`}
-        >
+        <div className="bg-primary/5 border p-2 rounded-md">
           {repository.isPrivate ? (
-            <Lock className="h-5 w-5 text-primary" />
+            <Lock className="text-primary" />
           ) : (
-            <Unlock className="h-5 w-5 text-primary" />
+            <Unlock className="text-primary" />
           )}
         </div>
 
-        <div className="min-w-0">
+        <div>
           <div className="flex items-center gap-2 min-w-0">
             <span className="font-medium truncate">{repository.fullName}</span>
 
@@ -56,13 +44,13 @@ export const GitHubRepositoryItem = ({ repository, isSelected, onSelect }: Props
       </div>
 
       <div className="flex items-center gap-4 text-sm text-muted-foreground shrink-0">
-        <div className="flex items-center gap-1">
-          <Star className="h-4 w-4" />
+        <div className="flex items-center gap-1 text-sm font-semibold text-foreground">
+          <Star className="size-4 text-yellow-500" />
           {repository.stars}
         </div>
 
-        <div className="flex items-center gap-1">
-          <GitFork className="h-4 w-4" />
+        <div className="flex items-center gap-1 text-sm font-semibold text-foreground">
+          <GitFork className="size-4 text-blue-500" />
           {repository.forks}
         </div>
 
@@ -70,7 +58,7 @@ export const GitHubRepositoryItem = ({ repository, isSelected, onSelect }: Props
 
         {isSelected && (
           <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-            <Check className="h-4 w-4 text-primary-foreground" />
+            <Check className="size-4 text-primary-foreground" />
           </div>
         )}
       </div>

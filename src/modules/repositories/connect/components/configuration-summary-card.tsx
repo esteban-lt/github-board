@@ -35,7 +35,7 @@ export const ConfigurationSummaryCard = ({ selectedRepository, selectedEvents }:
         <div className="space-y-2">
           <Label className="text-muted-foreground">Repository</Label>
           <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/20">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/5">
               {selectedRepository?.isPrivate ? (
                 <Lock className="size-5 text-primary" />
               ) : (

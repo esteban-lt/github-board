@@ -25,7 +25,7 @@ export const WebhookEventsCard = ({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Webhook className="h-5 w-5" />
+          <Webhook className="size-5" />
           Webhook Events
         </CardTitle>
 
@@ -35,7 +35,7 @@ export const WebhookEventsCard = ({
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-2">
         {eventTypes.map((event) => {
           const checked = selectedEvents.includes(event.id);
 
@@ -48,16 +48,16 @@ export const WebhookEventsCard = ({
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") onToggleEvent(event.id);
               }}
-              className={`flex items-center gap-4 p-4 rounded-lg border cursor-pointer transition-all hover:border-primary/50 ${
-                checked ? "border-primary bg-primary/5" : "border-border"
+              className={`flex items-center gap-4 p-4 rounded-md border transition-all hover:border-primary/50 ${
+                checked ? "border-primary/50 bg-primary/5" : "border-border"
               }`}
             >
-              <Checkbox checked={checked} className="pointer-events-none" />
-
               <div className="flex-1">
                 <p className="font-medium">{event.label}</p>
                 <p className="text-sm text-muted-foreground">{event.description}</p>
               </div>
+
+              <Checkbox checked={checked} className="pointer-events-none size-5" />
             </div>
           );
         })}
