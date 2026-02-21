@@ -15,7 +15,7 @@ import { NavigationButtons } from "../components/navigation-buttons";
 import { gitHubRepositoriesMock } from "../mocks/github-repositories.mock";
 import { ReviewStep } from "../components/review-step";
 import { RepositoryFilters } from "../components/repository-filters";
-import { GitHubRepositoryItem } from "../components/github-repository-item";
+import { GitHubRepositoryCard } from "../components/github-repository-card";
 import { ConfigureEvents } from "../components/configure-events";
 
 const eventTypes = [
@@ -107,7 +107,7 @@ export default function Index() {
       <Header 
         title="Connect repository"
         description="Add a GitHub repository to start monitoring its activity"
-        actions={
+        /*actions={
           <Button
             variant="outline"
             onClick={() => navigate('/repositories')}
@@ -115,14 +115,14 @@ export default function Index() {
             <ArrowLeft className="size-5" />
             Back
           </Button>
-        }
+        }*/
       />
 
       {/* Steps progress */}
-      <StepsProgress 
+      {/* <StepsProgress 
         steps={steps}
         currentStep={currentStep}
-      />
+      /> */}
 
       {/* Step Content */}
       <div className="min-h-100">
@@ -132,7 +132,7 @@ export default function Index() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Github className="h-5 w-5" />
+                  {/* <Github className="h-5 w-5" /> */}
                   Select a Repository
                 </CardTitle>
                 <CardDescription>
@@ -147,10 +147,10 @@ export default function Index() {
                 />
 
                 {/* Repository List */}
-                <div className="space-y-2 max-h-87.5 overflow-y-auto pr-2">
+                <div className="space-y-2 max-h-106 overflow-y-auto pr-2">
                   {
                     filteredRepos.map((githubRepository) => (
-                      <GitHubRepositoryItem
+                      <GitHubRepositoryCard
                         key={githubRepository.id}
                         repository={githubRepository}
                         isSelected={selectedRepo === githubRepository.id}

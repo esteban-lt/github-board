@@ -1,8 +1,8 @@
 import { Header } from "@/components/app-pages/header";
 import { Actions } from "../components/actions";
-import { RepositoryCard } from "../components/repository-card";
-import { repositoriesMock } from "../mocks/repositories.mock";
 import { RepositoryFilters } from "../components/repository-filters";
+import { RepositoryList } from "../components/repository-list";
+import { repositoriesMock } from "../mocks/repositories.mock";
 
 const Index = () => {
   return (
@@ -14,13 +14,7 @@ const Index = () => {
       />
 
       <RepositoryFilters />
-      <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
-        {
-          repositoriesMock.map(repository => (
-            <RepositoryCard key={repository.fullName} repository={repository} />
-          ))
-        }
-      </div>
+      <RepositoryList repositories={repositoriesMock} />
     </>
   );
 }

@@ -29,7 +29,7 @@ export const ReadyToConnectCard = ({ bullets }: Props) => {
         <div className="space-y-4">
           {bullets.map((bullet) => (
             <div key={bullet.title} className="flex items-start gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/20">
+              <div className="flex size-8 items-center justify-center rounded-full bg-primary/5">
                 {bullet.icon}
               </div>
               <div>
@@ -42,7 +42,7 @@ export const ReadyToConnectCard = ({ bullets }: Props) => {
 
         <div className="pt-4 border-t">
           <p className="text-sm text-muted-foreground mb-4">
-            By connecting, you authorize GitHub Monitor to receive webhook events from this repository.
+            By connecting, you authorize GitHub Board to receive webhook events from this repository.
           </p>
         </div>
       </CardContent>

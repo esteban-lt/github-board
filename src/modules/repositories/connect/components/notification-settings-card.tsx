@@ -8,7 +8,7 @@ export const NotificationSettingsCard = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Bell className="h-5 w-5" />
+          <Bell className="size-5" />
           Notification Settings
         </CardTitle>
         <CardDescription>
