@@ -1,16 +1,20 @@
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getRepositoriesAction } from "../actions/repository.action";
+import { repositoriesMock } from "../mocks/repositories.mock";
 import { Header } from "@/components/app-pages/header";
 import { Actions } from "../components/actions";
 import { RepositoryFilters } from "../components/repository-filters";
 import { RepositoryList } from "../components/repository-list";
-import { repositoriesMock } from "../mocks/repositories.mock";
-import { getRepositoriesAction } from "../actions/repository.action";
 
 const Index = () => {
 
-  useEffect(() => {
-    getRepositoriesAction().then(repositories => console.log(repositories)).catch(console.log);
-  }, []);
+  const { data: repositories } = useQuery({
+    queryKey: ['repositories'],
+    queryFn: getRepositoriesAction,
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
+  console.log(repositories);
 
   return (
     <>
