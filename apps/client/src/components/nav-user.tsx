@@ -1,4 +1,11 @@
 import {
+  Bell,
+  ChevronsUpDown,
+  CircleUserRound,
+  LogOut,
+} from "lucide-react"
+
+import {
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -18,17 +25,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { ChevronsUpDownIcon, SparklesIcon, BadgeCheckIcon, CreditCardIcon, BellIcon, LogOutIcon } from "lucide-react"
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
+interface User {
+  name: string;
+  email: string;
+  avatar: string;
+}
+
+export function NavUser({ user }: { user: User }) {
   const { isMobile } = useSidebar()
 
   return (
@@ -48,7 +52,7 @@ export function NavUser({
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
-              <ChevronsUpDownIcon className="ml-auto size-4" />
+              <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -69,36 +73,21 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+
+            <DropdownMenuSeparator /> 
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <SparklesIcon
-                />
-                Upgrade to Pro
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheckIcon
-                />
+                <CircleUserRound />
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <CreditCardIcon
-                />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <BellIcon
-                />
+                <Bell />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <LogOutIcon
-              />
+              <LogOut />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
