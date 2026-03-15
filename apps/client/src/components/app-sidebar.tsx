@@ -55,17 +55,17 @@ const data = {
     },
     {
       title: "Automations",
-      url: "/automations",
+      url: "#",
       icon: Zap,
     },
     {
       title: "Integrations",
-      url: "/integrations",
+      url: "#",
       icon: Puzzle,
     },
     {
       title: "Settings",
-      url: "/settings",
+      url: "#",
       icon: Settings2,
     },
   ],
