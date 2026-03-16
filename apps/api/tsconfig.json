@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     // Environment setup & latest features
+    "module": "es2022",
+    "target": "es6",
+    "esModuleInterop": true,
     "lib": ["ESNext"],
-    "target": "ESNext",
-    "module": "Preserve",
     "moduleDetection": "force",
     "jsx": "react-jsx",
     "allowJs": true,

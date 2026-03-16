@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                  String    @id @default(uuid())
+  githubId            BigInt    @unique @map("github_id")
+  username            String    @db.VarChar(127)
+  email               String?   @db.VarChar(255)
+  avatarUrl           String?   @map("avatar_url")
+  githubAccessToken   String?   @map("github_access_token")
+  tokenExpiresAt      DateTime? @map("token_expires_at")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  ownedWorkspaces     Workspace[]
+  workspaceMemberships WorkspaceMember[]
+
+  @@map("users")
+}
+
+model Workspace {
+  id        String   @id @default(uuid())
+  ownerId   String   @map("owner_id")
+  name      String   @db.VarChar(127)
+  slug      String   @unique @db.VarChar(127)
+  plan      String   @default("free") @db.VarChar(127)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  owner        User              @relation(fields: [ownerId], references: [id])
+  members      WorkspaceMember[]
+  repositories Repository[]
+
+  @@map("workspaces")
+}
+
+model WorkspaceMember {
+  id          String   @id @default(uuid())
+  workspaceId String   @map("workspace_id")
+  userId      String   @map("user_id")
+  role        String   @default("member") @db.VarChar(127)
+  joinedAt    DateTime @default(now()) @map("joined_at")
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@unique([workspaceId, userId])
+  @@map("workspace_members")
+}
+
+model Repository {
+  id            String    @id @default(uuid())
+  workspaceId   String    @map("workspace_id")
+  githubRepoId  BigInt    @map("github_repo_id")
+  name          String    @db.VarChar(127)
+  fullName      String    @map("full_name") @db.VarChar(255)
+  description   String?
+  htmlUrl       String?   @map("html_url")
+  defaultBranch String    @default("main") @map("default_branch") @db.VarChar(255)
+  isActive      Boolean   @default(true) @map("is_active")
+  isPrivate     Boolean   @default(false) @map("is_private")
+  lastSyncedAt  DateTime? @map("last_synced_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
+
+  @@unique([workspaceId, githubRepoId])
+  @@map("repositories")
+}

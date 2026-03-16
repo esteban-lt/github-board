@@ -9,6 +9,9 @@ build
 # Turbo
 .turbo
 
+# Prisma
+generated
+
 # Environment variables
 .env
 .env.local
