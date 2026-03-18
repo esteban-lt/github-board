@@ -1,7 +1,14 @@
+import { Navigate } from "react-router";
+import { useAuth } from "../context/auth-context";
 import { GalleryVerticalEnd } from "lucide-react"
-import { AuthForm } from "@/components/auth-form"
+import { AuthForm } from "@/modules/auth/components/auth-form"
 
 const AuthPage = () => {
+
+  const { user, isLoading } = useAuth();
+
+  if (isLoading) return null;
+  if (user) return <Navigate to="/" replace />;
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">

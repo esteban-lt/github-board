@@ -1,11 +1,12 @@
 import { Router } from 'express';
+import { AuthRoutes } from './auth/routes';
 
 export class Routes {
   
   static get routes() {
     const router = Router();
 
-    router.get('/test', (request, response) => response.json('ok'));
+    router.use('/api/auth', AuthRoutes.routes);
 
     return router;
   }

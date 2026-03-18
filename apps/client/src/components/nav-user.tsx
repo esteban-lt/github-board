@@ -1,3 +1,7 @@
+import { useNavigate } from "react-router";
+
+import { useAuth } from "@/modules/auth/context/auth-context";
+
 import {
   Bell,
   ChevronsUpDown,
@@ -33,7 +37,15 @@ interface User {
 }
 
 export function NavUser({ user }: { user: User }) {
-  const { isMobile } = useSidebar()
+
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const { isMobile } = useSidebar();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/auth');
+  }
 
   return (
     <SidebarMenu>
@@ -86,7 +98,7 @@ export function NavUser({ user }: { user: User }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut />
               Log out
             </DropdownMenuItem>

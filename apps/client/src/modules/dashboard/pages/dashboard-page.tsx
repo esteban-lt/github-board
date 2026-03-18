@@ -1,6 +1,6 @@
 import { Header } from "@/components/app-pages/header";
 
-const DashbaordPage = () => {
+const DashboardPage = () => {
 
   return (
     <Header 
@@ -9,4 +9,4 @@ const DashbaordPage = () => {
   );
 }
 
-export default DashbaordPage;
+export default DashboardPage;
