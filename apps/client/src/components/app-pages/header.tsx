@@ -1,7 +1,9 @@
+import type React from "react";
+
 interface Props {
   title: string;
   description?: string;
-  actions?: any;
+  actions?: React.ReactElement;
 }
 
 export const Header = ({ title, description, actions }: Props) => {
@@ -9,7 +11,7 @@ export const Header = ({ title, description, actions }: Props) => {
     <div className="flex justify-between items-start">
       <div>
         <h1 className="text-xl font-medium">{title}</h1>
-        <p>{description}</p>
+        <p className="text-sm">{description}</p>
       </div>
 
       <div>
