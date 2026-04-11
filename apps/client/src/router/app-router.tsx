@@ -5,6 +5,7 @@ import AppLayout from '@/layouts/app-layout';
 import DashboardPage from '@/modules/dashboard/pages/dashboard-page';
 import ActivityFeedPage from '@/modules/activity-feed/pages/activity-feed-page';
 import RepositoriesPage from '@/modules/repositories/pages/repositories-page';
+import ConnectRepositoryPage from '@/modules/repositories/connect/pages/connect-repository-page';
 
 export const appRouter = createBrowserRouter([
   {
@@ -28,7 +29,16 @@ export const appRouter = createBrowserRouter([
           },
           {
             path: 'repositories',
-            element: <RepositoriesPage />,
+            children: [
+              {
+                index: true,
+                element: <RepositoriesPage />,
+              },
+              {
+                path: 'connect',
+                element: <ConnectRepositoryPage />,
+              },
+            ],
           },
         ],
       },
