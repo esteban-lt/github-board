@@ -27,6 +27,7 @@
     "dotenv": "^17.3.1",
     "env-var": "^7.5.0",
     "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3"
+    "jsonwebtoken": "^9.0.3",
+    "octokit": "^5.0.5"
   }
 }
