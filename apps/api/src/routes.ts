@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { AuthMiddleware } from './middlewares/auth-middleware';
 import { AuthRoutes } from './auth/routes';
 import { GitHubRoutes } from './github/routes';
-import { RepositoryRoutes } from './repositories/routes';
+import { RepositoryRoutes } from './repositories/presentation/repository-routes';
 
 export class Routes {
   

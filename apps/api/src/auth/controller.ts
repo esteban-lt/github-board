@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { env } from '../plugins/env';
-import { JWT } from '../plugins/jwt';
+import JWT from '../plugins/jwt';
 import { AuthService } from './service';
 
 export class AuthController {
@@ -20,7 +20,7 @@ export class AuthController {
       if (!code || typeof(code) !== 'string') return response.redirect(`${env.FRONTEND_URL}/auth?error=missing_code`);
 
       const user = await AuthService.handleGitHubCallback(code);
-      const token = JWT.signToken({
+      const token = await JWT.signToken({
         userId: user.id,
         githubId: Number(user.githubId),
       });
