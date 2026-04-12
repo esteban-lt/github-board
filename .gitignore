@@ -6,9 +6,6 @@ dist
 build
 .output
 
-# Turbo
-.turbo
-
 # Prisma
 generated
 
