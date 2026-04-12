@@ -1,24 +1,30 @@
 import type { Request, Response, NextFunction } from 'express';
-import { JWT, type JWTPayload } from '../plugins/jwt';
+import JWT from '../plugins/jwt';
+
+export interface SessionPayload {
+  userId: string;
+  githubId: number;
+}
 
 declare global {
   namespace Express {
     interface Request {
-      user?: JWTPayload;
+      user?: SessionPayload;
     }
   }
 }
 
 export class AuthMiddleware {
 
-  static requireAuth = (request: Request, response: Response, next: NextFunction) => {
-
+  static requireAuth = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const token = request.cookies?.session;
-      const payload = JWT.verifyToken(token);
-      request.user = payload;
+      if (!token) return response.status(401).json({ ok: false, message: 'Not authenticated' });
+
+      const payload = await JWT.verifyToken(token);
+      request.user = payload as unknown as SessionPayload;
       next();
-    } 
+    }
     catch {
       response.status(401).json({ ok: false, message: 'Not authenticated' });
     }
