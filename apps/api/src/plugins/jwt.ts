@@ -1,18 +1,30 @@
-import jwt from 'jsonwebtoken';
+import { SignJWT, jwtVerify } from 'jose';
 import { env } from './env';
 
-export interface JWTPayload {
-  userId: string;
-  githubId: number;
-}
+const JWT_SECRET = new TextEncoder().encode(env.JWT_SECRET);
 
-export class JWT {
+class JWT {
 
-  static signToken(payload: JWTPayload): string {
-    return jwt.sign(payload, env.JWT_SECRET, { expiresIn: env.JWT_EXPIRES_IN as any });
+  public static async signToken(payload: Record<string, unknown>): Promise<string> {
+    try {
+      return await new SignJWT(payload)
+        .setProtectedHeader({ alg: 'HS256' })
+        .setExpirationTime('2h')
+        .setIssuedAt()
+        .sign(JWT_SECRET);
+    } catch {
+      throw new Error('Error generating token');
+    }
   }
 
-  static verifyToken(token: string): JWTPayload {
-    return jwt.verify(token, env.JWT_SECRET) as JWTPayload;
+  public static async verifyToken(token: string) {
+    try {
+      const { payload } = await jwtVerify(token, JWT_SECRET);
+      return payload;
+    } catch {
+      throw new Error('Invalid or expired token');
+    }
   }
 }
+
+export default JWT;
