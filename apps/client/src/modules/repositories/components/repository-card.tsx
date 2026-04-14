@@ -18,7 +18,10 @@ export const RepositoryCard = ({ repository }: Props) => {
             <img src="/avatar.png" alt="" className="size-6" />
           </span>
           <div>
-            <CardTitle>{repository.name}</CardTitle>
+            <CardTitle className="flex items-center gap-1">
+              {repository.name}
+              <Badge variant="outline">{repository.isPrivate ? 'Private' : 'Public'}</Badge>
+            </CardTitle>
             <CardDescription>{repository.fullName}</CardDescription>
           </div>
         </div>
@@ -52,8 +55,9 @@ export const RepositoryCard = ({ repository }: Props) => {
           <GitHubStat icon={<GitPullRequest className="text-green-500 size-4" />} value={repository.pullRequests} label="PRs" />
         </div>
 
-        <div>
+        <div className="flex justify-between items-center">
           <Badge variant="outline">{repository.languaje}</Badge>
+          <div className="text-xs text-gray-500">Last synced at: Today 23:08</div>
         </div>
 
         <div>

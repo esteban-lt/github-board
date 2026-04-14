@@ -2,9 +2,11 @@ import type { Repository } from '../../../interfaces/repository';
 
 export const repositoriesMock: Repository[] = [
   {
-    name: 'awesome-dashboard',
-    fullName: 'esteban-lt/awesome-dashboard',
-    description: 'A modern React dashboard with TypeScript and Tailwind CSS',
+    id: '1',
+    githubRepoId: 1018259548,
+    name: 'portfolio',
+    fullName: 'esteban-lt/portfolio',
+    description: 'A modern Astro portfolio builded with TypeScript and Tailwind CSS',
     isActive: true,
     isPrivate: false,
     stars: 1247,
@@ -14,6 +16,8 @@ export const repositoriesMock: Repository[] = [
     languaje: 'TypeScript',
   },
   {
+    id: '2',
+    githubRepoId: 123,
     name: 'api-gateway',
     fullName: 'esteban-lt/api-gateway',
     description: 'High-performance API gateway built with Node.js and Express',
@@ -26,6 +30,8 @@ export const repositoriesMock: Repository[] = [
     languaje: 'JavaScript',
   },
   {
+    id: '3',
+    githubRepoId: 123,
     name: 'mobile-app',
     fullName: 'esteban-lt/mobile-app',
     description: 'Cross-platform mobile application using React Native',
@@ -38,6 +44,8 @@ export const repositoriesMock: Repository[] = [
     languaje: 'TypeScript',
   },
   {
+    id: '4',
+    githubRepoId: 123,
     name: 'design-system',
     fullName: 'esteban-lt/design-system',
     description: 'Comprehensive design system and component library',

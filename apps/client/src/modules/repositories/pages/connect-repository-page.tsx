@@ -1,22 +1,21 @@
 import { useNavigate } from "react-router";
-import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft } from "lucide-react";
-import { getGithubRepositoriesAction } from "../actions/get-github-repositories-action";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/app-pages/header";
 import { GitHubRepositoryGrid } from "../components/github-repository-grid";
+import { useGithubRepositories } from "../hooks/use-github-repositories";
+import { useRepositories } from "../hooks/use-repositories";
+import { useConnectRepository } from "../hooks/use-connect-repository";
 
 const ConnectRepositoryPage = () => {
 
   const navigate = useNavigate();
-  
-  const { data: githubRepositories } = useQuery({
-    queryKey: ['github-repositories'],
-    queryFn: getGithubRepositoriesAction,
-    staleTime: 1000 * 60 * 2,
-  });
 
+  const { data: githubRepositories, isLoading } = useGithubRepositories();
+  const { data: connectedRepositories } = useRepositories();
+  const { mutate: connectRepository, isPending, variables } = useConnectRepository();
   console.log(githubRepositories);
+  console.log(connectedRepositories);
 
   return (
     <>
@@ -30,6 +29,10 @@ const ConnectRepositoryPage = () => {
 
       <GitHubRepositoryGrid 
         githubRepositories={githubRepositories}
+        connectedRepositories={connectedRepositories}
+        isLoading={isLoading}
+        connectingRepoId={isPending ? variables : null}
+        onConnect={connectRepository}
       />
     </>
   );
