@@ -4,8 +4,8 @@ import AuthPage from '@/modules/auth/pages/auth-page';
 import AppLayout from '@/layouts/app-layout';
 import DashboardPage from '@/modules/dashboard/pages/dashboard-page';
 import ActivityFeedPage from '@/modules/activity-feed/pages/activity-feed-page';
-import RepositoriesPage from '@/modules/repositories/pages/repositories-page';
-import ConnectRepositoryPage from '@/modules/repositories/connect/pages/connect-repository-page';
+import RepositoriesPage from '@/modules/repositories/pages';
+import ConnectRepositoryPage from '@/modules/repositories/pages/connect-repository-page';
 
 export const appRouter = createBrowserRouter([
   {

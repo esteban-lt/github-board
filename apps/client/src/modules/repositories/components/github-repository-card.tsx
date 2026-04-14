@@ -1,4 +1,4 @@
-import { GitFork, Star } from "lucide-react";
+import { GitFork, Loader2, Star } from "lucide-react";
 import type { GitHubRepository } from "@/interfaces/github-repository";
 import { getLanguageColor } from "@/lib/get-language-color";
 import { Badge } from "@/components/ui/badge";
@@ -7,9 +7,12 @@ import { Button } from "@/components/ui/button";
 
 interface Props {
   githubRepository: GitHubRepository;
+  isConnected: boolean;
+  isLoading: boolean;
+  onConnect: (githubRepoId: number) => void;
 }
 
-export const GitHubRepositoryCard = ({ githubRepository }: Props) => {
+export const GitHubRepositoryCard = ({ githubRepository, isConnected, isLoading = false, onConnect }: Props) => {
 
   const languageColor = githubRepository.language 
     ? getLanguageColor(githubRepository.language) 
@@ -57,8 +60,16 @@ export const GitHubRepositoryCard = ({ githubRepository }: Props) => {
         </div>
       </div>
 
-      <Button variant="outline" className="shrink-0 self-center">
-        Connect
+      <Button 
+        disabled={isConnected || isLoading} 
+        variant="outline" 
+        className="shrink-0 self-center"
+        onClick={() => onConnect(githubRepository.id)}
+      >
+        {isLoading
+          ? <><Loader2 className="size-4 animate-spin" /> Connecting...</>
+          : isConnected ? 'Connected' : 'Connect'
+        }
       </Button>
     </Card>
   );

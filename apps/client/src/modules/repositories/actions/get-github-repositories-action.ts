@@ -1,4 +1,4 @@
-import repositoriesApi from '../api/repositories-api';
+import repositoriesApi from '../api/repository-api';
 
 export const getGithubRepositoriesAction = async () => {
   try {
