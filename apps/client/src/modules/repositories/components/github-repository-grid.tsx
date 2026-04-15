@@ -3,6 +3,7 @@ import type { Repository } from "@/interfaces/repository";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { GitHubRepositoryCard } from "./github-repository-card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { GitFork } from "lucide-react";
 
 interface Props {
   githubRepositories: GitHubRepository[];
@@ -61,9 +62,15 @@ export const GitHubRepositoryGrid = ({ githubRepositories, connectedRepositories
           </div>
         )}
 
-        {!isLoading && githubRepositories?.length === 0 && (
-          <div className="py-4 text-center">
-            <p className="mt-2 text-muted-foreground">No repositories found</p>
+        {!isLoading && githubRepositories && githubRepositories.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-10 text-center gap-3">
+            <div className="border p-4 rounded-xl">
+              <GitFork className="size-8 text-muted-foreground" />
+            </div>
+            <div>
+              <p className="font-medium">No repositories found</p>
+              <p className="text-sm text-muted-foreground">We couldn't find any GitHub repositories linked to your account.</p>
+            </div>
           </div>
         )}
       </CardContent>

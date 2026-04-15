@@ -29,7 +29,7 @@ export const GitHubRepositoryCard = ({ githubRepository, isConnected, isLoading 
           <div className="flex items-center gap-2 min-w-0">
             <span className="font-medium truncate min-w-0">{githubRepository.fullName}</span>
             <Badge variant="outline" className="shrink-0">
-              {githubRepository.private ? 'Private' : 'Public'}
+              {githubRepository.isPrivate ? 'Private' : 'Public'}
             </Badge>
           </div>
           <p className="text-sm text-muted-foreground line-clamp-1">
@@ -43,11 +43,11 @@ export const GitHubRepositoryCard = ({ githubRepository, isConnected, isLoading 
         <div className="flex items-center gap-3 shrink-0">
           <div className="flex items-center gap-0.5 text-sm text-muted-foreground">
             <Star className="size-3.5" />
-            {githubRepository.stargazersCount}
+            {githubRepository.stars}
           </div>
           <div className="flex items-center gap-0.5 text-sm text-muted-foreground">
             <GitFork className="size-3.5" />
-            {githubRepository.forksCount}
+            {githubRepository.forks}
           </div>
           {languageColor && (
             <Badge

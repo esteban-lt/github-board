@@ -16,8 +16,14 @@ const repositoryApi = {
       githubRepoId,
     });
   },
+  disconnect: (id: string) => {
+    return apiService.patch(`/api/repositories/${id}/disconnect`);
+  },
   toggleStatus: (id: string) => {
     return apiService.patch(`/api/repositories/${id}/status`);
+  },
+  synchronize: (id: string) => {
+    return apiService.put(`api/repositories/${id}/synchronize`);
   },
 }
 

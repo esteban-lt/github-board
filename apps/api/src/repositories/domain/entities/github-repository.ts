@@ -1,10 +1,8 @@
 interface Options {
-  id: string;
-  workspaceId: string;
-  githubRepoId: number;
+  id: number;
   name: string;
   fullName: string;
-  description: string;
+  description: string | null;
   htmlUrl: string;
   language: string;
   stars: number;
@@ -12,19 +10,16 @@ interface Options {
   openIssues: number;
   openPullRequests: number;
   defaultBranch: string;
-  isConnected: boolean;
-  isActive: boolean;
+  ownerAvatarUrl: string;
   isPrivate: boolean;
-  lastSyncedAt: Date;
 }
 
-export class Repository {
-  public readonly id: string;
-  public readonly workspaceId: string;
-  public readonly githubRepoId: number;
+export class GitHubRepository {
+  
+  public readonly id: number;
   public readonly name: string;
   public readonly fullName: string;
-  public readonly description: string;
+  public readonly description: string | null;
   public readonly htmlUrl: string;
   public readonly language: string;
   public readonly stars: number;
@@ -32,15 +27,11 @@ export class Repository {
   public readonly openIssues: number;
   public readonly openPullRequests: number;
   public readonly defaultBranch: string;
-  public readonly isConnected: boolean;
-  public readonly isActive: boolean;
+  public readonly ownerAvatarUrl: string;
   public readonly isPrivate: boolean;
-  public readonly lastSyncedAt: Date;
 
   constructor(options: Options) {
     this.id = options.id;
-    this.workspaceId = options.workspaceId;
-    this.githubRepoId = options.githubRepoId;
     this.name = options.name;
     this.fullName = options.fullName;
     this.description = options.description;
@@ -51,9 +42,7 @@ export class Repository {
     this.openIssues = options.openIssues;
     this.openPullRequests = options.openPullRequests;
     this.defaultBranch = options.defaultBranch;
-    this.isConnected = options.isConnected;
-    this.isActive = options.isActive;
+    this.ownerAvatarUrl = options.ownerAvatarUrl;
     this.isPrivate = options.isPrivate;
-    this.lastSyncedAt = options.lastSyncedAt;
   }
 }

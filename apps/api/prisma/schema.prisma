@@ -67,6 +67,12 @@ model Repository {
   fullName      String    @map("full_name") @db.VarChar(255)
   description   String?
   htmlUrl       String?   @map("html_url")
+  language      String?   @db.VarChar(127)
+  stars         Int       @default(0)
+  forks         Int       @default(0)
+  openIssues    Int       @default(0) @map("open_issues")
+  openPullRequests Int    @default(0) @map("open_pull_requests")
+  isConnected   Boolean   @default(true) @map("is_connected")
   defaultBranch String    @default("main") @map("default_branch") @db.VarChar(255)
   isActive      Boolean   @default(true) @map("is_active")
   isPrivate     Boolean   @default(false) @map("is_private")

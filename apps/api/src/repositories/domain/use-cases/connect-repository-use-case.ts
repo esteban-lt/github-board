@@ -13,14 +13,21 @@ export class ConnectRepositoryUseCase {
     workspaceId: string,
     githubService: GitHubService,
   ): Promise<Repository> {
-    const githubData = await githubService.getRepositoryById(githubRepoId);
+    const githubRepository = await githubService.getRepositoryById(githubRepoId);
     return this.repositoryRepository.connect(githubRepoId, workspaceId, {
-      name: githubData.name,
-      fullName: githubData.fullName,
-      description: githubData.description,
-      htmlUrl: githubData.htmlUrl,
-      defaultBranch: githubData.defaultBranch,
-      isPrivate: githubData.private,
+      id: githubRepository.id,
+      name: githubRepository.name,
+      fullName: githubRepository.fullName,
+      description: githubRepository.description,
+      htmlUrl: githubRepository.htmlUrl,
+      defaultBranch: githubRepository.defaultBranch,
+      isPrivate: githubRepository.isPrivate,
+      language: githubRepository.language,
+      stars: githubRepository.stars,
+      forks: githubRepository.forks,
+      openIssues: githubRepository.openIssues,
+      openPullRequests: githubRepository.openPullRequests,
+      ownerAvatarUrl: githubRepository.ownerAvatarUrl,
     });
   }
 }

@@ -1,6 +1,6 @@
 import type { RepositoryDatasource } from '../../domain/datasources/repository-datasource';
+import type { GitHubRepository } from '../../domain/entities/github-repository';
 import type { Repository } from '../../domain/entities/repository';
-import type { GitHubRepositoryData } from '../../domain/interfaces/github-repository-data';
 import type { RepositoryRepository } from '../../domain/repositories/repository-repository';
 
 export class RepositoryRepositoryImplementation implements RepositoryRepository {
@@ -9,8 +9,12 @@ export class RepositoryRepositoryImplementation implements RepositoryRepository 
     private readonly repositoryDatasource: RepositoryDatasource
   ) {}
 
-  public connect(githubRepoId: number, workspaceId: string, githubRepositoryData: GitHubRepositoryData): Promise<Repository> {
-    return this.repositoryDatasource.connect(githubRepoId, workspaceId, githubRepositoryData);
+  public connect(githubRepoId: number, workspaceId: string, githubRepository: GitHubRepository): Promise<Repository> {
+    return this.repositoryDatasource.connect(githubRepoId, workspaceId, githubRepository);
+  }
+
+  public disconnect(id: string): Promise<void> {
+    return this.repositoryDatasource.disconnect(id);
   }
 
   public getAll(workspaceId: string): Promise<Repository[]> {
@@ -25,7 +29,7 @@ export class RepositoryRepositoryImplementation implements RepositoryRepository 
     return this.repositoryDatasource.setStatus(id, isActive);
   }
 
-  public synchronize(id: string): Promise<Repository> {
-    return this.repositoryDatasource.synchronize(id);
+  public synchronize(id: string, githubRepository: GitHubRepository): Promise<Repository> {
+    return this.repositoryDatasource.synchronize(id, githubRepository);
   }
 }
