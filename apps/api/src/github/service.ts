@@ -1,5 +1,5 @@
-import type { Octokit } from "octokit";
-import octokitClient from "../plugins/octokit-client"
+import type { Octokit } from 'octokit';
+import octokitClient from '../plugins/octokit-client';
 
 export class GitHubService {
 
@@ -15,38 +15,40 @@ export class GitHubService {
       per_page: 100,
     });
 
-    return data.map((githubRepository) => ({
-      id: githubRepository.id,
-      name: githubRepository.name,
-      fullName: githubRepository.full_name,
-      description: githubRepository.description,
-      private: githubRepository.private,
-      htmlUrl: githubRepository.html_url,
-      defaultBranch: githubRepository.default_branch,
-      language: githubRepository.language,
-      stargazersCount: githubRepository.stargazers_count,
-      forksCount: githubRepository.forks_count,
-      ownerAvatarUrl: githubRepository.owner.avatar_url,
-      updatedAt: githubRepository.updated_at,
+    return data.map((repo) => ({
+      id: repo.id,
+      name: repo.name,
+      fullName: repo.full_name,
+      description: repo.description,
+      isPrivate: repo.private,
+      htmlUrl: repo.html_url,
+      defaultBranch: repo.default_branch,
+      language: repo.language,
+      stars: repo.stargazers_count,
+      forks: repo.forks_count,
+      openIssues: repo.open_issues_count,
+      openPullRequests: 0, // no disponible en listForAuthenticatedUser
+      ownerAvatarUrl: repo.owner.avatar_url,
+      updatedAt: repo.updated_at,
     }));
   }
 
   public getRepositoryById = async (id: number) => {
-    const { data } = await this.octokit.request('GET /repositories/{id}', {
-      id: id,
-    });
+    const { data } = await this.octokit.request('GET /repositories/{id}', { id });
 
     return {
-      githubId: data.id,
+      id: data.id,
       name: data.name,
       fullName: data.full_name,
       description: data.description,
-      private: data.private,
+      isPrivate: data.private,
       htmlUrl: data.html_url,
       defaultBranch: data.default_branch,
       language: data.language,
-      stargazersCount: data.stargazers_count,
-      forksCount: data.forks_count,
+      stars: data.stargazers_count,
+      forks: data.forks_count,
+      openIssues: data.open_issues_count,
+      openPullRequests: 0, // requiere un endpoint adicional
       ownerLogin: data.owner.login,
       ownerAvatarUrl: data.owner.avatar_url,
       updatedAt: data.updated_at,
