@@ -6,12 +6,16 @@ import { UserRepository } from '../../users/repository';
 import { GitHubService } from '../../github/service';
 import { handleError } from '../../shared/lib/error-handler';
 import type { GetRepositoryByIdUseCase } from '../domain/use-cases/get-repository-by-id-use-case';
+import type { DisconnectRepositoryUseCase } from '../domain/use-cases/disconnect-repository-use-case';
+import type { SynchronizeRepositoryUseCase } from '../domain/use-cases/synchronize-repository-use-case';
 
 interface UseCases {
   connect: ConnectRepositoryUseCase;
+  disconnect: DisconnectRepositoryUseCase;
   getAll: GetRepositoriesUseCase;
   getById: GetRepositoryByIdUseCase;
   setStatus: SetRepositoryStatusUseCase;
+  synchronize: SynchronizeRepositoryUseCase;
 }
 
 export class RepositoryController {
@@ -34,6 +38,16 @@ export class RepositoryController {
       const data = await this.useCases.connect.execute(githubRepoId, workspace.id, githubService);
       res.status(201).json(data);
     } catch (error) {
+      handleError(error, res);
+    }
+  }
+
+  public disconnect = async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id as string;
+      await this.useCases.disconnect.execute(id);
+      res.status(200).json({ ok: true });
+    } catch(error) {
       handleError(error, res);
     }
   }
@@ -65,6 +79,19 @@ export class RepositoryController {
       await this.useCases.setStatus.execute(id);
       res.status(200).json({ ok: true });
     } catch (error) {
+      handleError(error, res);
+    }
+  }
+
+  public synchronize = async (req: Request, res: Response) => {
+    try {
+      const id = req.params.id as string;
+      const userId = req.user?.userId!;
+      const accessToken = await UserRepository.getAccessToken(userId);
+      const githubService = new GitHubService(accessToken);
+      const data = await this.useCases.synchronize.execute(id, githubService);
+      res.status(200).json(data);
+    } catch(error) {
       handleError(error, res);
     }
   }
