@@ -2,15 +2,16 @@ import { useNavigate } from "react-router";
 import { Header } from "@/components/app-pages/header";
 import { RepositoriesGrid } from "../components/repositories-grid";
 import { Button } from "@/components/ui/button";
-import { repositoriesMock } from "../mocks/repositories-mock";
 import { useRepositories } from "../hooks/use-repositories";
+import { useDisconnectRepository } from "../hooks/use-disconnect-repository";
+import { useSynchronizeRepository } from "../hooks/use-synchronize-repository";
 
 const Index = () => {
 
   const navigate = useNavigate();
-  const { data: repositories } = useRepositories();
-  console.log(repositories);
-  console.log(repositoriesMock);
+  const { data: repositories, isLoading } = useRepositories();
+  const { mutate: disconnectRepository } = useDisconnectRepository();
+  const { mutate: synchronizeRepository } = useSynchronizeRepository();
 
   return (
     <>
@@ -24,7 +25,12 @@ const Index = () => {
         }
       />
 
-      <RepositoriesGrid repositories={repositoriesMock} />
+      <RepositoriesGrid 
+        repositories={repositories}
+        isLoading={isLoading}
+        onDisconnect={disconnectRepository}
+        onSynchronize={synchronizeRepository}
+      />
     </>
   );
 }

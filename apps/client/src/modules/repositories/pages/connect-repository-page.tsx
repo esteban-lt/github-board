@@ -14,8 +14,6 @@ const ConnectRepositoryPage = () => {
   const { data: githubRepositories, isLoading } = useGithubRepositories();
   const { data: connectedRepositories } = useRepositories();
   const { mutate: connectRepository, isPending, variables } = useConnectRepository();
-  console.log(githubRepositories);
-  console.log(connectedRepositories);
 
   return (
     <>
