@@ -2,11 +2,14 @@ export interface GitHubRepository {
   id: number;
   name: string;
   fullName: string;
-  description: string;
-  avatarUrl: string;
+  description: string | null;
+  htmlUrl: string;
   language: string;
-  stargazersCount: number;
-  forksCount: number;
+  stars: number;
+  forks: number;
+  openIssues: number;
+  openPullRequests: number;
+  defaultBranch: string;
   ownerAvatarUrl: string;
-  private: boolean;
+  isPrivate: boolean;
 }

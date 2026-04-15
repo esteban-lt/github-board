@@ -1,14 +1,19 @@
 export interface Repository {
   id: string;
+  workspaceId: string;
   githubRepoId: number;
   name: string;
   fullName: string;
   description: string;
-  isActive: boolean;
-  isPrivate: boolean;
+  htmlUrl: string;
+  language: string;
   stars: number;
   forks: number;
-  issues: number;
-  pullRequests: number;
-  languaje: string;
+  openIssues: number;
+  openPullRequests: number;
+  defaultBranch: string;
+  isConnected: boolean;
+  isActive: boolean;
+  isPrivate: boolean;
+  lastSyncedAt: Date;
 }
