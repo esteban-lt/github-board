@@ -1,12 +1,15 @@
 import type { Request, Response } from 'express';
-import type { GetRepositoriesUseCase } from '../domain/use-cases/get-repositories-use-case';
+
+import { GitHubService } from '@github/service';
+import { handleError } from '@lib/error-handler';
+import { UserRepository } from '@users/user-repository';
+import { WorkspaceRepository } from '@workspaces/workspace-repository';
+
 import type { ConnectRepositoryUseCase } from '../domain/use-cases/connect-repository-use-case';
-import type { SetRepositoryStatusUseCase } from '../domain/use-cases/set-repository-status-use-case';
-import { UserRepository } from '../../users/repository';
-import { GitHubService } from '../../github/service';
-import { handleError } from '../../shared/lib/error-handler';
-import type { GetRepositoryByIdUseCase } from '../domain/use-cases/get-repository-by-id-use-case';
 import type { DisconnectRepositoryUseCase } from '../domain/use-cases/disconnect-repository-use-case';
+import type { GetRepositoriesUseCase } from '../domain/use-cases/get-repositories-use-case';
+import type { GetRepositoryByIdUseCase } from '../domain/use-cases/get-repository-by-id-use-case';
+import type { SetRepositoryStatusUseCase } from '../domain/use-cases/set-repository-status-use-case';
 import type { SynchronizeRepositoryUseCase } from '../domain/use-cases/synchronize-repository-use-case';
 
 interface UseCases {
@@ -30,7 +33,7 @@ export class RepositoryController {
       const githubRepoId = Number(req.body.githubRepoId);
 
       const [workspace, accessToken] = await Promise.all([
-        UserRepository.getWorkspaceByOwnerId(userId),
+        WorkspaceRepository.getByOwnerId(userId),
         UserRepository.getAccessToken(userId),
       ]);
 
@@ -55,7 +58,7 @@ export class RepositoryController {
   public getAll = async (req: Request, res: Response) => {
     try {
       const userId = req.user?.userId!;
-      const workspace = await UserRepository.getWorkspaceByOwnerId(userId);
+      const workspace = await WorkspaceRepository.getByOwnerId(userId);
       const data = await this.useCases.getAll.execute(workspace.id);
       res.status(200).json(data);
     } catch (error) {
