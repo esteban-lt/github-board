@@ -1,5 +1,5 @@
-import { ResponseError } from "../../../shared/lib/response-error";
-import type { RepositoryRepository } from "../repositories/repository-repository";
+import { ResponseError } from '@lib/response-error';
+import type { RepositoryRepository } from '../repositories/repository-repository';
 
 export class SetRepositoryStatusUseCase {
 

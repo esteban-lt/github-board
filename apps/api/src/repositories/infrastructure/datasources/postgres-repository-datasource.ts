@@ -1,5 +1,5 @@
-import { prisma } from '../../../shared/lib/prisma';
-import { ResponseError } from '../../../shared/lib/response-error';
+import { prisma } from '@lib/prisma';
+import { ResponseError } from '@lib/response-error';
 import type { RepositoryDatasource } from '../../domain/datasources/repository-datasource';
 import type { GitHubRepository } from '../../domain/entities/github-repository';
 import { Repository } from '../../domain/entities/repository';
@@ -61,6 +61,18 @@ export class PostgresRepositoryDatasource implements RepositoryDatasource {
   public async getById(id: string): Promise<Repository> {
     try {
       const repository = await prisma.repository.findUnique({ where: { id }});
+      if(!repository) throw ResponseError.notFound('Repository not found');
+      return RepositoryMapper.fromObject(repository);
+    } catch(error) {
+      if(error instanceof ResponseError) throw error;
+      console.log(error);
+      throw ResponseError.internalServerError();
+    }
+  }
+
+  public async getByGithubRepoId(githubRepoId: number): Promise<Repository | null> {
+    try {
+      const repository = await prisma.repository.findFirst({ where: { githubRepoId } });
       if(!repository) throw ResponseError.notFound('Repository not found');
       return RepositoryMapper.fromObject(repository);
     } catch(error) {

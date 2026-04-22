@@ -42,6 +42,8 @@ model Workspace {
   members      WorkspaceMember[]
   repositories Repository[]
 
+  events Event[]
+
   @@map("workspaces")
 }
 
@@ -75,13 +77,35 @@ model Repository {
   isConnected   Boolean   @default(true) @map("is_connected")
   defaultBranch String    @default("main") @map("default_branch") @db.VarChar(255)
   isActive      Boolean   @default(true) @map("is_active")
-  isPrivate     Boolean   @default(false) @map("is_private")
+  isPrivate     Boolean   @map("is_private")
   lastSyncedAt  DateTime? @map("last_synced_at")
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime  @updatedAt @map("updated_at")
 
   workspace Workspace @relation(fields: [workspaceId], references: [id])
 
+  events Event[]
+
   @@unique([workspaceId, githubRepoId])
   @@map("repositories")
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  workspaceId String   @map("workspace_id")
+  repositoryId String  @map("repository_id")
+  type        String   @db.VarChar(127)
+  actor       String   @db.VarChar(127)
+  actorAvatar String?  @map("actor_avatar")
+  repo        String   @db.VarChar(255)
+  description String?
+  meta        Json?
+  occurredAt  DateTime @map("occurred_at")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  workspace  Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  repository Repository @relation(fields: [repositoryId], references: [id], onDelete: Cascade)
+
+  @@index([workspaceId, occurredAt(sort: Desc)])
+  @@map("events")
 }

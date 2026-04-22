@@ -9,6 +9,21 @@
     "jsx": "react-jsx",
     "allowJs": true,
 
+    "paths": {
+      "@auth/*": ["./src/auth/*"],
+      "@dashboard/*": ["./src/dashboard/*"],
+      "@events/*": ["./src/events/*"],
+      "@github/*": ["./src/github/*"],
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@plugins/*": ["./src/plugins/*"],
+      "@repositories/*": ["./src/repositories/*"],
+      "@users/*": ["./src/users/*"],
+      "@webhooks/*": ["./src/webhooks/*"],
+      "@workspaces/*": ["./src/workspaces/*"]
+    },
+
     // Bundler mode
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

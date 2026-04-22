@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { get } from 'env-var';
 
 export const env = {
@@ -11,4 +10,6 @@ export const env = {
   JWT_EXPIRES_IN: get('JWT_EXPIRES_IN').required().asString(),
   FRONTEND_URL: get('FRONTEND_URL').required().asString(),
   ENCRYPTION_KEY: get('ENCRYPTION_KEY').required().asString(),
+  WEBHOOK_URL: get('WEBHOOK_URL').required().asString(),
+  GITHUB_WEBHOOK_SECRET: get('GITHUB_WEBHOOK_SECRET').required().asString(),
 }
