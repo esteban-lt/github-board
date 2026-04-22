@@ -16,7 +16,7 @@ import { ButtonGroup } from "../ui/button-group";
 
 export const Header = () => {
   return (
-    <header className="flex h-16 shrink-0 justify-between items-center gap-2 px-4 border-b border-sidebar-border transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+    <header className="flex h-12 shrink-0 justify-between items-center gap-2 px-4 border-b border-sidebar-border transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
       <div className="flex items-center gap-2">
         <SidebarTrigger className="-ml-1" />
         <Separator
@@ -37,52 +37,29 @@ export const Header = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button variant="outline" size="icon" aria-label="Search">
+        <Button variant="outline" size="icon-sm" aria-label="Search">
           <Search />
           <span className="sr-only">Search</span>
         </Button>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              <Plus />
-              <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>
-              <BookMarked />
-              Connect repository
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Zap />
-              Create automation
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Puzzle />
-              Add integration
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
         <ButtonGroup>
-          <Button variant="outline" size="icon" aria-label="Notifications">
+          <Button variant="outline" size="icon-sm" aria-label="Notifications">
             <CircleDot />
             <span className="sr-only">View issues</span>
           </Button>
 
-          <Button variant="outline" size="icon" aria-label="Notifications">
+          <Button variant="outline" size="icon-sm" aria-label="Notifications">
             <GitPullRequest />
             <span className="sr-only">View pull requests</span>
           </Button>
 
-          <Button variant="outline" size="icon" aria-label="Notifications">
+          <Button variant="outline" size="icon-sm" aria-label="Notifications">
             <BookMarked />
             <span className="sr-only">View repositories</span>
           </Button>
         </ButtonGroup>
 
-        <Button variant="outline" size="icon" aria-label="Notifications">
+        <Button variant="outline" size="icon-sm" aria-label="Notifications">
           <Bell />
           <span className="sr-only">View notifications</span>
         </Button>
