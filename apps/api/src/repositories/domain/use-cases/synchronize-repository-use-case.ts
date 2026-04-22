@@ -1,4 +1,4 @@
-import type { GitHubService } from '../../../github/service';
+import type { GitHubService } from '@github/service';
 import type { Repository } from '../entities/repository';
 import type { RepositoryRepository } from '../repositories/repository-repository';
 
