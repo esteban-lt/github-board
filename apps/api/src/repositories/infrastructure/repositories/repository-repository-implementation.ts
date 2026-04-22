@@ -25,6 +25,10 @@ export class RepositoryRepositoryImplementation implements RepositoryRepository 
     return this.repositoryDatasource.getById(id);
   }
 
+  public getByGithubRepoId(githubRepoId: number): Promise<Repository | null> {
+    return this.repositoryDatasource.getByGithubRepoId(githubRepoId);
+  }
+
   public setStatus(id: string, isActive: boolean): Promise<void> {
     return this.repositoryDatasource.setStatus(id, isActive);
   }
