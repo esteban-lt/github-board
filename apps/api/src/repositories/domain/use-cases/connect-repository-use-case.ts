@@ -1,6 +1,7 @@
-import type { GitHubService } from "../../../github/service";
-import type { Repository } from "../entities/repository";
-import type { RepositoryRepository } from "../repositories/repository-repository";
+import type { GitHubService } from '@github/service';
+import { env } from '@plugins/env';
+import type { Repository } from '../entities/repository';
+import type { RepositoryRepository } from '../repositories/repository-repository';
 
 export class ConnectRepositoryUseCase {
 
@@ -14,7 +15,8 @@ export class ConnectRepositoryUseCase {
     githubService: GitHubService,
   ): Promise<Repository> {
     const githubRepository = await githubService.getRepositoryById(githubRepoId);
-    return this.repositoryRepository.connect(githubRepoId, workspaceId, {
+    
+    const repository = await this.repositoryRepository.connect(githubRepoId, workspaceId, {
       id: githubRepository.id,
       name: githubRepository.name,
       fullName: githubRepository.fullName,
@@ -29,5 +31,10 @@ export class ConnectRepositoryUseCase {
       openPullRequests: githubRepository.openPullRequests,
       ownerAvatarUrl: githubRepository.ownerAvatarUrl,
     });
+
+    const [owner, repo] = githubRepository.fullName.split('/');
+    await githubService.registerWebhook(owner, repo, env.WEBHOOK_URL);
+
+    return repository;
   }
 }
