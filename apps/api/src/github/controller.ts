@@ -1,6 +1,6 @@
 import type { Request, Response } from 'express';
 import { GitHubService } from './service';
-import { UserRepository } from '../users/repository';
+import { UserRepository } from '@users/user-repository';
 
 export class GitHubController {
 

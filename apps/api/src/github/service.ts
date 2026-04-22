@@ -1,5 +1,6 @@
 import type { Octokit } from 'octokit';
-import octokitClient from '../plugins/octokit-client';
+import octokitClient from '@plugins/octokit-client';
+import { env } from '@plugins/env';
 
 export class GitHubService {
 
@@ -53,5 +54,20 @@ export class GitHubService {
       ownerAvatarUrl: data.owner.avatar_url,
       updatedAt: data.updated_at,
     };
+  }
+
+  public async registerWebhook(owner: string, repo: string, webhookUrl: string): Promise<void> {
+    await this.octokit.request('POST /repos/{owner}/{repo}/hooks', {
+      owner,
+      repo,
+      name: 'web',
+      active: true,
+      events: ['push', 'pull_request', 'issues', 'star', 'fork'],
+      config: {
+        url: webhookUrl,
+        content_type: 'json',
+        secret: env.GITHUB_WEBHOOK_SECRET,
+      },
+    });
   }
 }
