@@ -1,15 +1,17 @@
 import { Router } from 'express';
+import { RepositoryController } from './repository-controller';
 import { PostgresRepositoryDatasource } from '../infrastructure/datasources/postgres-repository-datasource';
 import { RepositoryRepositoryImplementation } from '../infrastructure/repositories/repository-repository-implementation';
-import { RepositoryController } from './repository-controller';
+
 import { ConnectRepositoryUseCase } from '../domain/use-cases/connect-repository-use-case';
-import { GetRepositoriesUseCase } from '../domain/use-cases/get-repositories-use-case';
-import { SetRepositoryStatusUseCase } from '../domain/use-cases/set-repository-status-use-case';
-import { GetRepositoryByIdUseCase } from '../domain/use-cases/get-repository-by-id-use-case';
 import { DisconnectRepositoryUseCase } from '../domain/use-cases/disconnect-repository-use-case';
+import { GetRepositoriesUseCase } from '../domain/use-cases/get-repositories-use-case';
+import { GetRepositoryByIdUseCase } from '../domain/use-cases/get-repository-by-id-use-case';
+import { SetRepositoryStatusUseCase } from '../domain/use-cases/set-repository-status-use-case';
 import { SynchronizeRepositoryUseCase } from '../domain/use-cases/synchronize-repository-use-case';
 
 export class RepositoryRoutes {
+  
   static get routes(): Router {
     const datasource = new PostgresRepositoryDatasource();
     const repository = new RepositoryRepositoryImplementation(datasource);
