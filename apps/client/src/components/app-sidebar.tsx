@@ -2,18 +2,14 @@ import * as React from "react"
 import {
   Activity,
   BookMarked,
-  FolderOpen,
   GalleryVerticalEnd,
-  Layers,
   LayoutDashboard,
   Puzzle,
   Settings2,
-  UsersRound,
   Zap,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
-import { NavOrganization } from "@/components/nav-organization"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
@@ -68,24 +64,7 @@ const data = {
       url: "#",
       icon: Settings2,
     },
-  ],
-  projects: [
-    {
-      title: "Teams",
-      url: "#",
-      icon: Layers,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: FolderOpen,
-    },
-    {
-      title: "Users",
-      url: "#",
-      icon: UsersRound,
-    },
-  ],
+  ]
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -96,7 +75,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavOrganization items={data.projects} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
