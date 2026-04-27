@@ -1,7 +1,5 @@
 import { Link, useMatch } from "react-router";
 
-import type { NavLink } from "@/interfaces/nav-link"
-
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -10,7 +8,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-export function NavMain({ items }: { items: NavLink[] }) {
+export function NavMain({ items }: { items: any[] }) {
 
   return (
     <SidebarGroup>
