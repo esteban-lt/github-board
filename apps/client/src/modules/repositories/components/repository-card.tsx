@@ -2,8 +2,12 @@ import type { Repository } from "../../../interfaces/repository";
 import { CircleDot, GitFork, GitPullRequest, RefreshCw, Star, Unplug } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { formatLastSynced } from "../lib/format-last-synced";
+import { LanguageBadge } from "./ui/language-badge";
+import { StatusBadge } from "./ui/status-badge";
+import { RepositoryAvatar } from "./ui/repository-avatar";
 
 interface Props {
   repository: Repository;
@@ -12,92 +16,86 @@ interface Props {
 }
 
 export const RepositoryCard = ({ repository, onDisconnect, onSynchronize }: Props) => {
-
   return (
-    <Card>
-      <CardHeader className="flex justify-between items-start">
-        <div className="flex items-center gap-2">
-          <span className="bg-primary/5 border p-2 rounded-lg">
-            <img src="/avatar.png" alt="" className="size-6" />
-          </span>
-          <div>
-            <CardTitle className="flex items-center gap-1.5">
-              {repository.name}
-              <Badge variant="outline">{repository.isPrivate ? 'Private' : 'Public'}</Badge>
-            </CardTitle>
-            <CardDescription>{repository.fullName}</CardDescription>
+    <Card className="flex flex-col p-4">
+      {/* Header row */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <RepositoryAvatar avatarUrl="/avatar.png" name={repository.name} />
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="font-semibold text-sm truncate">{repository.name}</span>
+              <Badge variant="outline" className="text-xs shrink-0 px-1.5 py-0">
+                {repository.isPrivate ? "Private" : "Public"}
+              </Badge>
+            </div>
+            <p className="text-xs text-muted-foreground truncate">{repository.fullName}</p>
           </div>
         </div>
 
-        <Badge variant="outline">
-          <span className={`inline-flex size-2 rounded-full ${repository.isActive ? 'bg-green-500' : 'bg-red-500'}`} />
-          {repository.isActive ? 'active' : 'inactive'}
-        </Badge>
-      </CardHeader>
-
-      <CardContent className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">
-          {(repository.description ? repository.description : <i>No description</i>)}
-        </p>
-
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <GitHubStat icon={<Star className="text-yellow-500 size-3.5" />} value={repository.stars} />
-          <GitHubStat icon={<GitFork className="text-blue-500 size-3.5" />} value={repository.forks} />
-          <GitHubStat icon={<CircleDot className="text-purple-500 size-3.5" />} value={repository.openIssues} />
-          <GitHubStat icon={<GitPullRequest className="text-green-500 size-3.5" />} value={repository.openPullRequests} />
-          <Badge variant="outline">{repository.language}</Badge>
-        </div>
-        <p className="text-xs text-muted-foreground">
-          Last synced {new Date(repository.lastSyncedAt).toLocaleString()}
-        </p>
+        <StatusBadge status={repository.isActive} />
       </div>
 
-        <div className="flex items-center gap-2">
-          <Button variant="outline" className="flex-1">View details</Button>
-          <div className="flex">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="icon" 
-                  className="rounded-r-none border-r-0"
-                  onClick={() => onSynchronize(repository.id)}
-                >
-                  <RefreshCw className="size-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Synchronize</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button 
-                  variant="outline" 
-                  size="icon" 
-                  className="rounded-l-none" 
-                  onClick={() => onDisconnect(repository.id)}
-                >
-                  <Unplug className="size-4" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Disconnect</TooltipContent>
-            </Tooltip>
-          </div>
+      {/* Description */}
+      <p className="text-xs text-muted-foreground line-clamp-1">
+        {repository.description ? repository.description : <i>No description</i>}
+      </p>
+
+      {/* Stats row */}
+      <div className="flex items-center justify-between gap-x-4 gap-y-1 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
+          {repository.language && (
+            <LanguageBadge language={repository.language} />
+          )}
+          <GitHubStat icon={<Star className="size-3 text-muted-foreground" />} value={repository.stars} />
+          <GitHubStat icon={<GitFork className="size-3 text-muted-foreground" />} value={repository.forks} />
+          <GitHubStat icon={<CircleDot className="size-3 text-muted-foreground" />} value={repository.openIssues} />
+          <GitHubStat icon={<GitPullRequest className="size-3 text-muted-foreground" />} value={repository.openPullRequests} />
         </div>
-      </CardContent>
+        <span className="text-xs text-muted-foreground">Last synced {formatLastSynced(repository.lastSyncedAt)}</span>
+      </div>
+
+      {/* Sparkline */}
+
+      {/* Actions */}
+      <div className="flex items-center">
+        <Button variant="outline" size="sm" className="flex-1 h-8 text-xs rounded-r-none border-r-0">
+          View details
+        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8 rounded-none border-r-0"
+              onClick={() => onSynchronize(repository.id)}
+            >
+              <RefreshCw className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Synchronize</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-8 rounded-l-none"
+              onClick={() => onDisconnect(repository.id)}
+            >
+              <Unplug className="size-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Disconnect</TooltipContent>
+        </Tooltip>
+      </div>
     </Card>
   );
-}
-
-interface GitHubStat {
-  icon: React.ReactNode;
-  value: number;
-  label: string;
-}
+};
 
 const GitHubStat = ({ icon, value }: { icon: React.ReactNode; value: number }) => (
-  <div className="flex items-center gap-1.5">
+  <div className="flex items-center gap-1">
     {icon}
-    <span className="text-sm font-medium">{value}</span>
+    <span className="text-xs font-medium">{value}</span>
   </div>
 );
