@@ -9,20 +9,22 @@ interface Props {
 }
 
 export const StatGrid = ({ stats, isLoading = false }: Props) => {
+
   return (
-    <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-4 grid-cols-2 xl:grid-cols-5">
       {isLoading
-        ? Array.from({ length: 4 }).map((_, i) => (
-            <Card key={i} className="gap-2">
-              <CardHeader className="flex flex-row items-start justify-between">
-                <Skeleton className="h-4 w-24" />
-                <Skeleton className="h-4 w-4 rounded-full" />
+        ? Array.from({ length: 5 }).map((_, i) => (
+            <Card key={i} className="gap-0">
+              <CardHeader>
+                <Skeleton className="h-2 w-12" />
               </CardHeader>
+                    
               <CardContent>
-                <Skeleton className="h-8 w-16" />
-              </CardContent>
+                <Skeleton className="h-20 w-8" />
+              </CardContent>    
+                    
               <CardFooter>
-                <Skeleton className="h-3 w-32" />
+                <Skeleton className="h-2 w-32" />
               </CardFooter>
             </Card>
           ))
