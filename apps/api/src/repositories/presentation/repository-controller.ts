@@ -10,6 +10,7 @@ import type { GetRepositoriesUseCase } from '../domain/use-cases/get-repositorie
 import type { GetRepositoryByIdUseCase } from '../domain/use-cases/get-repository-by-id-use-case';
 import type { SetRepositoryStatusUseCase } from '../domain/use-cases/set-repository-status-use-case';
 import type { SynchronizeRepositoryUseCase } from '../domain/use-cases/synchronize-repository-use-case';
+import type { GetRepositoriesParams } from '../domain/types/repository-params';
 
 interface UseCases {
   connect: ConnectRepositoryUseCase;
@@ -19,6 +20,9 @@ interface UseCases {
   setStatus: SetRepositoryStatusUseCase;
   synchronize: SynchronizeRepositoryUseCase;
 }
+
+const VALID_SORTS = ['stars', 'forks', 'updated_at', 'name'] as const;
+type ValidSort = typeof VALID_SORTS[number];
 
 export class RepositoryController {
 
@@ -53,7 +57,16 @@ export class RepositoryController {
   public getAll = async (req: Request, res: Response) => {
     try {
       const workspaceId = req.user?.workspaceId!;
-      const data = await this.useCases.getAll.execute(workspaceId);
+      const page = Math.max(1, parseInt(req.query.page as string) || 1);
+      const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string) || 20));
+      const search = (req.query.search as string) || undefined;
+      const language = (req.query.language as string) || undefined;
+      const rawSort = req.query.sort as string;
+      const sort: ValidSort = VALID_SORTS.includes(rawSort as ValidSort) ? (rawSort as ValidSort) : 'updated_at';
+      const order: 'asc' | 'desc' = req.query.order === 'asc' ? 'asc' : 'desc';
+
+      const params: GetRepositoriesParams = { page, limit, search, language, sort, order };
+      const data = await this.useCases.getAll.execute(workspaceId, params);
       res.status(200).json(data);
     } catch (error) {
       handleError(error, res);
