@@ -1,9 +1,17 @@
 import type { LucideIcon } from "lucide-react";
 
+export interface StatTrend {
+  value: number;
+  label: string;
+  type: 'delta' | 'percent';
+}
+
 export interface DashboardStatCard {
   title: string;
   metric: number;
-  caption: string;
-  icon: LucideIcon;
+  caption?: string;
+  trend?: StatTrend;
+  icon?: LucideIcon;
   iconClassName?: string;
+  sparkline?: number[];
 }
