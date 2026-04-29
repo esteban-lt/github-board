@@ -11,7 +11,8 @@ const ActivityFeedPage = () => {
   const [selectedPeople, setSelectedPeople] = useState<string[]>([]);
 
   const { data: events = [] } = useEvents();
-  const { data: repositories = [] } = useRepositories();
+  const { data: repositoriesPage } = useRepositories({ limit: 1000 });
+  const repositories = repositoriesPage?.data ?? [];
   useActivityStream();
 
   console.log(repositories);
