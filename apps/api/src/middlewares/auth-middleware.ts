@@ -1,9 +1,11 @@
 import type { Request, Response, NextFunction } from 'express';
-import JWT from '../plugins/jwt';
+import JWT from '@plugins/jwt';
+import { WorkspaceRepository } from '@workspaces/workspace-repository';
 
 export interface SessionPayload {
   userId: string;
   githubId: number;
+  workspaceId: string;
 }
 
 declare global {
@@ -22,7 +24,12 @@ export class AuthMiddleware {
       if (!token) return response.status(401).json({ ok: false, message: 'Not authenticated' });
 
       const payload = await JWT.verifyToken(token);
-      request.user = payload as unknown as SessionPayload;
+      const sessionPayload = payload as unknown as SessionPayload;
+
+      const workspace = await WorkspaceRepository.getByOwnerId(sessionPayload.userId);
+      sessionPayload.workspaceId = workspace.id;
+
+      request.user = sessionPayload;
       next();
     }
     catch {

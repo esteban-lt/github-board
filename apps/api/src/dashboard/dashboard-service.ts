@@ -6,11 +6,16 @@ export class DashboardService {
     private readonly dashboardRepository: DashboardRepository,
   ) {}
 
-  public getStats() {
-    return this.dashboardRepository.getStats();
+  public getStats(workspaceId: string) {
+    return this.dashboardRepository.getStats(workspaceId);
   }
+
 
   public getTopRepositories() {
     return this.dashboardRepository.getTopRepositories();
+  }
+
+  public getCommitActivity(workspaceId: string) {
+    return this.dashboardRepository.getCommitActivity(workspaceId);
   }
 }

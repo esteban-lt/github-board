@@ -58,6 +58,7 @@ export class GitHubWebhookService {
           meta: {
             branch: payload.ref?.replace('refs/heads/', ''),
             commitHash: payload.after,
+            commitCount: payload.commits?.length ?? 1,
             additions: payload.head_commit?.added?.length ?? 0,
             deletions: payload.head_commit?.removed?.length ?? 0,
           },

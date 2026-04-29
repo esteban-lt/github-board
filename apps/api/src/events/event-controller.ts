@@ -2,7 +2,6 @@ import type { Request, Response } from 'express';
 import type { EventService } from './event-service';
 import type { EventRepository } from './event-repository';
 import { randomUUID } from 'crypto';
-import { WorkspaceRepository } from '@workspaces/workspace-repository';
 
 export class EventController {
 
@@ -27,9 +26,8 @@ export class EventController {
 
   public getEvents = async (req: Request, res: Response): Promise<void> => {
     try {
-      const userId = req.body?.user;
-      const workspace = await WorkspaceRepository.getByOwnerId(userId);
-      const events = await this.eventRepository.findByWorkspace(workspace.id);
+      const workspaceId = req.user?.workspaceId!;
+      const events = await this.eventRepository.findByWorkspace(workspaceId);
       res.status(200).json(events);
     } catch (error) {
       console.error(error);
