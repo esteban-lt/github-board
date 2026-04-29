@@ -13,7 +13,6 @@ export const RecentActivity = ({ activity }: Props) => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Activity className="size-5" />
           Recent Activity
         </CardTitle>
         <CardDescription>Latest events from your repositories</CardDescription>
