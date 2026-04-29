@@ -38,4 +38,35 @@ export class EventRepository {
       take: limit,
     });
   }
+
+  public async getCommitActivity(workspaceId: string, days = 7) {
+    const since = new Date();
+    since.setDate(since.getDate() - (days - 1));
+    since.setHours(0, 0, 0, 0);
+
+    const events = await prisma.event.findMany({
+      where: { workspaceId, type: 'push', occurredAt: { gte: since } },
+      select: { occurredAt: true, meta: true },
+    });
+
+    const activityMap = new Map<string, number>();
+    for (let i = 0; i < days; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() - (days - 1 - i));
+      activityMap.set(d.toISOString().split('T')[0]!, 0);
+    }
+
+    for (const event of events) {
+      const key = event.occurredAt.toISOString().split('T')[0]!;
+      if (activityMap.has(key)) {
+        const count = (event.meta as any)?.commitCount ?? 1;
+        activityMap.set(key, (activityMap.get(key) ?? 0) + count);
+      }
+    }
+
+    return Array.from(activityMap.entries()).map(([date, commits]) => ({
+      date,
+      commits,
+    }));
+  }
 }
