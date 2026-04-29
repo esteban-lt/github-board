@@ -1,11 +1,18 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query";
 import { getGithubRepositoriesAction } from "../actions/get-github-repositories-action";
 
-export const useGithubRepositories = () => {
+interface UseGithubRepositoriesParams {
+  page?: number;
+  per_page?: number;
+  sort?: string;
+  direction?: string;
+  search?: string;
+}
 
+export const useGithubRepositories = (params: UseGithubRepositoriesParams = {}) => {
   return useQuery({
-    queryKey: ['github-repositories'],
-    queryFn: getGithubRepositoriesAction,
+    queryKey: ['github-repositories', params],
+    queryFn: () => getGithubRepositoriesAction(params),
     staleTime: 1000 * 60 * 3,
   });
 }

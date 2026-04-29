@@ -2,6 +2,7 @@ import type { RepositoryDatasource } from '../../domain/datasources/repository-d
 import type { GitHubRepository } from '../../domain/entities/github-repository';
 import type { Repository } from '../../domain/entities/repository';
 import type { RepositoryRepository } from '../../domain/repositories/repository-repository';
+import type { GetRepositoriesParams, PaginatedRepositories } from '../../domain/types/repository-params';
 
 export class RepositoryRepositoryImplementation implements RepositoryRepository {
 
@@ -17,8 +18,8 @@ export class RepositoryRepositoryImplementation implements RepositoryRepository 
     return this.repositoryDatasource.disconnect(id);
   }
 
-  public getAll(workspaceId: string): Promise<Repository[]> {
-    return this.repositoryDatasource.getAll(workspaceId);
+  public getAll(workspaceId: string, params: GetRepositoriesParams): Promise<PaginatedRepositories> {
+    return this.repositoryDatasource.getAll(workspaceId, params);
   }
 
   public getById(id: string): Promise<Repository> {

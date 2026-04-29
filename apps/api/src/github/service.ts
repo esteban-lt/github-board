@@ -2,6 +2,14 @@ import type { Octokit } from 'octokit';
 import octokitClient from '@plugins/octokit-client';
 import { env } from '@plugins/env';
 
+interface GetRepositoriesOptions {
+  page?: number;
+  per_page?: number;
+  sort?: 'updated' | 'created' | 'pushed' | 'full_name';
+  direction?: 'asc' | 'desc';
+  search?: string;
+}
+
 export class GitHubService {
 
   private octokit: Octokit;
@@ -9,14 +17,18 @@ export class GitHubService {
   constructor(accessToken: string) {
     this.octokit = octokitClient(accessToken);
   }
-  
-  public getRepositories = async () => {
+
+  public getRepositories = async (options: GetRepositoriesOptions = {}) => {
+    const { page = 1, per_page = 30, sort = 'updated', direction = 'desc', search } = options;
+
     const { data } = await this.octokit.rest.repos.listForAuthenticatedUser({
-      sort: 'updated',
-      per_page: 100,
+      sort,
+      direction,
+      per_page,
+      page,
     });
 
-    return data.map((repo) => ({
+    let repositories = data.map((repo) => ({
       id: repo.id,
       name: repo.name,
       fullName: repo.full_name,
@@ -28,10 +40,26 @@ export class GitHubService {
       stars: repo.stargazers_count,
       forks: repo.forks_count,
       openIssues: repo.open_issues_count,
-      openPullRequests: 0, // no disponible en listForAuthenticatedUser
+      openPullRequests: 0,
       ownerAvatarUrl: repo.owner.avatar_url,
       updatedAt: repo.updated_at,
     }));
+
+    if (search) {
+      const q = search.toLowerCase();
+      repositories = repositories.filter(
+        (r) => r.name.toLowerCase().includes(q) || r.fullName.toLowerCase().includes(q)
+      );
+    }
+
+    const hasNextPage = data.length === per_page;
+
+    return {
+      data: repositories,
+      total_count: data.length,
+      page,
+      hasNextPage,
+    };
   }
 
   public getRepositoryById = async (id: number) => {
@@ -49,7 +77,7 @@ export class GitHubService {
       stars: data.stargazers_count,
       forks: data.forks_count,
       openIssues: data.open_issues_count,
-      openPullRequests: 0, // requiere un endpoint adicional
+      openPullRequests: 0,
       ownerLogin: data.owner.login,
       ownerAvatarUrl: data.owner.avatar_url,
       updatedAt: data.updated_at,

@@ -4,6 +4,14 @@ import type { RepositoryDatasource } from '../../domain/datasources/repository-d
 import type { GitHubRepository } from '../../domain/entities/github-repository';
 import { Repository } from '../../domain/entities/repository';
 import { RepositoryMapper } from '../../domain/mappers/repository-mapper';
+import type { GetRepositoriesParams, PaginatedRepositories } from '../../domain/types/repository-params';
+
+const SORT_FIELD_MAP: Record<string, string> = {
+  updated_at: 'updatedAt',
+  stars: 'stars',
+  forks: 'forks',
+  name: 'name',
+};
 
 export class PostgresRepositoryDatasource implements RepositoryDatasource {
 
@@ -44,13 +52,40 @@ export class PostgresRepositoryDatasource implements RepositoryDatasource {
     });
   }
 
-  public async getAll(workspaceId: string): Promise<Repository[]> {
+  public async getAll(workspaceId: string, params: GetRepositoriesParams): Promise<PaginatedRepositories> {
+    const { page, limit, search, language, sort, order } = params;
+    const skip = (page - 1) * limit;
+    const sortField = SORT_FIELD_MAP[sort] ?? sort;
+
+    const where = {
+      workspaceId,
+      isConnected: true,
+      ...(search && {
+        OR: [
+          { name: { contains: search, mode: 'insensitive' as const } },
+          { fullName: { contains: search, mode: 'insensitive' as const } },
+        ],
+      }),
+      ...(language && { language }),
+    };
+
     try {
-      const repositories = await prisma.repository.findMany({ where: { 
-        workspaceId,
-        isConnected: true,
-      }});
-      return repositories.map((repository) => RepositoryMapper.fromObject(repository));
+      const [repositories, total] = await Promise.all([
+        prisma.repository.findMany({
+          where,
+          orderBy: { [sortField]: order },
+          skip,
+          take: limit,
+        }),
+        prisma.repository.count({ where }),
+      ]);
+
+      return {
+        data: repositories.map((r) => RepositoryMapper.fromObject(r)),
+        total,
+        page,
+        totalPages: Math.ceil(total / limit),
+      };
     } catch(error) {
       if(error instanceof ResponseError) throw error;
       console.log(error);

@@ -1,59 +1,57 @@
-import { useState } from "react";
-import type { Repository } from "../../../interfaces/repository";
+import { useState, useEffect } from "react";
 import type { RepositoryStatus } from "../components/filters/repository-status-tabs";
-import type { RepositorySort } from "../components/filters/sort-filter";
+import { SORT_TO_API, type RepositorySort } from "../components/filters/sort-filter";
 import type { RepositoryView } from "../components/filters/view-toggle";
 
-export const useRepositoryFilters = (repositories: Repository[] = []) => {
-
-  const [search, setSearch] = useState("");
+export const useRepositoryFilters = () => {
+  const [searchInput, setSearchInput] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [status, setStatus] = useState<RepositoryStatus>("all");
   const [language, setLanguage] = useState<string | null>(null);
-  const [sort, setSort] = useState<RepositorySort>("recently-active");
+  const [sort, setSort] = useState<RepositorySort>("updated_at");
   const [view, setView] = useState<RepositoryView>("grid");
+  const [page, setPage] = useState(1);
 
-  let filtered = [...repositories];
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchInput);
+      setPage(1);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
 
-  if (search.trim()) {
-    const q = search.toLowerCase();
-    filtered = filtered.filter((r) =>
-      r.name.toLowerCase().includes(q) ||
-      r.fullName.toLowerCase().includes(q) ||
-      r.description?.toLowerCase().includes(q)
-    );
-  }
+  const handleLanguage = (value: string | null) => {
+    setLanguage(value);
+    setPage(1);
+  };
 
-  if (status === "active") filtered = filtered.filter((r) => r.isActive);
-  if (status === "inactive") filtered = filtered.filter((r) => !r.isActive);
-  if (status === "public") filtered = filtered.filter((r) => !r.isPrivate);
-  if (status === "private") filtered = filtered.filter((r) => r.isPrivate);
+  const handleSort = (value: RepositorySort) => {
+    setSort(value);
+    setPage(1);
+  };
 
-  if (language) filtered = filtered.filter((r) => r.language === language);
-
-  switch (sort) {
-    case "recently-active":
-      filtered.sort((a, b) => new Date(b.lastSyncedAt).getTime() - new Date(a.lastSyncedAt).getTime());
-      break;
-    case "name-asc":
-      filtered.sort((a, b) => a.name.localeCompare(b.name));
-      break;
-    case "name-desc":
-      filtered.sort((a, b) => b.name.localeCompare(a.name));
-      break;
-    case "stars":
-      filtered.sort((a, b) => b.stars - a.stars);
-      break;
-    case "most-commits":
-      filtered.sort((a, b) => new Date(b.lastSyncedAt).getTime() - new Date(a.lastSyncedAt).getTime());
-      break;
-  }
+  const { sort: apiSort, order } = SORT_TO_API[sort];
 
   return {
-    search, setSearch,
-    status, setStatus,
-    language, setLanguage,
-    sort, setSort,
-    view, setView,
-    filtered,
+    searchInput,
+    setSearchInput,
+    status,
+    setStatus,
+    language,
+    setLanguage: handleLanguage,
+    sort,
+    setSort: handleSort,
+    view,
+    setView,
+    page,
+    setPage,
+    apiParams: {
+      search: debouncedSearch || undefined,
+      language: language || undefined,
+      sort: apiSort,
+      order,
+      page,
+      limit: 20,
+    },
   };
 };

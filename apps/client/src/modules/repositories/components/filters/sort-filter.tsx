@@ -8,14 +8,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export type RepositorySort = "recently-active" | "name-asc" | "name-desc" | "stars" | "most-commits";
+export type RepositorySort = "updated_at" | "stars" | "forks" | "name-asc" | "name-desc";
+
+export const SORT_TO_API: Record<RepositorySort, { sort: 'stars' | 'forks' | 'updated_at' | 'name'; order: 'asc' | 'desc' }> = {
+  updated_at: { sort: 'updated_at', order: 'desc' },
+  stars: { sort: 'stars', order: 'desc' },
+  forks: { sort: 'forks', order: 'desc' },
+  "name-asc": { sort: 'name', order: 'asc' },
+  "name-desc": { sort: 'name', order: 'desc' },
+};
 
 const SORT_OPTIONS: { label: string; value: RepositorySort }[] = [
-  { label: "Recently active", value: "recently-active" },
+  { label: "Recently updated", value: "updated_at" },
+  { label: "Most stars", value: "stars" },
+  { label: "Most forks", value: "forks" },
   { label: "Name (A-Z)", value: "name-asc" },
   { label: "Name (Z-A)", value: "name-desc" },
-  { label: "Most stars", value: "stars" },
-  { label: "Most commits", value: "most-commits" },
 ];
 
 interface Props {
