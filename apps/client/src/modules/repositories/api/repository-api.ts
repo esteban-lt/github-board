@@ -1,15 +1,32 @@
 import apiService from '@/services/api-service';
 
+interface GetRepositoriesParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  language?: string;
+  sort?: string;
+  order?: string;
+}
+
+interface GetGithubRepositoriesParams {
+  page?: number;
+  per_page?: number;
+  sort?: string;
+  direction?: string;
+  search?: string;
+}
+
 const repositoryApi = {
 
-  getAll: () => {
-    return apiService.get('/api/repositories');
+  getAll: (params?: GetRepositoriesParams) => {
+    return apiService.get('/api/repositories', { params });
   },
   getByid: (id: string) => {
     return apiService.get(`/api/repositories/${id}`);
   },
-  getGithubRepositories: () => {
-    return apiService.get('/api/github/repositories');
+  getGithubRepositories: (params?: GetGithubRepositoriesParams) => {
+    return apiService.get('/api/github/repositories', { params });
   },
   connect: (githubRepoId: number) => {
     return apiService.post('/api/repositories/connect', {
