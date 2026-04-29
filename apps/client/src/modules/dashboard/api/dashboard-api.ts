@@ -7,6 +7,9 @@ const dashboardApi = {
   getTopRepositories: () => {
     return apiService.get('/api/dashboard/top-repositories');
   },
+  getCommitActivity: () => {
+    return apiService.get('/api/dashboard/commit-activity');
+  },
 };
 
 export default dashboardApi;
