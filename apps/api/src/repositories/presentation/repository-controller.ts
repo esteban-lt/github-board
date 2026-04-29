@@ -3,7 +3,6 @@ import type { Request, Response } from 'express';
 import { GitHubService } from '@github/service';
 import { handleError } from '@lib/error-handler';
 import { UserRepository } from '@users/user-repository';
-import { WorkspaceRepository } from '@workspaces/workspace-repository';
 
 import type { ConnectRepositoryUseCase } from '../domain/use-cases/connect-repository-use-case';
 import type { DisconnectRepositoryUseCase } from '../domain/use-cases/disconnect-repository-use-case';
@@ -30,15 +29,11 @@ export class RepositoryController {
   public connect = async (req: Request, res: Response) => {
     try {
       const userId = req.user?.userId!;
+      const workspaceId = req.user?.workspaceId!;
       const githubRepoId = Number(req.body.githubRepoId);
-
-      const [workspace, accessToken] = await Promise.all([
-        WorkspaceRepository.getByOwnerId(userId),
-        UserRepository.getAccessToken(userId),
-      ]);
-
+      const accessToken = await UserRepository.getAccessToken(userId);
       const githubService = new GitHubService(accessToken);
-      const data = await this.useCases.connect.execute(githubRepoId, workspace.id, githubService);
+      const data = await this.useCases.connect.execute(githubRepoId, workspaceId, githubService);
       res.status(201).json(data);
     } catch (error) {
       handleError(error, res);
@@ -57,9 +52,8 @@ export class RepositoryController {
 
   public getAll = async (req: Request, res: Response) => {
     try {
-      const userId = req.user?.userId!;
-      const workspace = await WorkspaceRepository.getByOwnerId(userId);
-      const data = await this.useCases.getAll.execute(workspace.id);
+      const workspaceId = req.user?.workspaceId!;
+      const data = await this.useCases.getAll.execute(workspaceId);
       res.status(200).json(data);
     } catch (error) {
       handleError(error, res);
