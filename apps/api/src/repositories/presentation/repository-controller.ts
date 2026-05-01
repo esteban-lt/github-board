@@ -11,12 +11,14 @@ import type { GetRepositoryByIdUseCase } from '../domain/use-cases/get-repositor
 import type { SetRepositoryStatusUseCase } from '../domain/use-cases/set-repository-status-use-case';
 import type { SynchronizeRepositoryUseCase } from '../domain/use-cases/synchronize-repository-use-case';
 import type { GetRepositoriesParams } from '../domain/types/repository-params';
+import type { GetRepositoryByFullNameUseCase } from '../domain/use-cases/get-repository-by-full-name-use-case';
 
 interface UseCases {
   connect: ConnectRepositoryUseCase;
   disconnect: DisconnectRepositoryUseCase;
   getAll: GetRepositoriesUseCase;
   getById: GetRepositoryByIdUseCase;
+  getByFullName: GetRepositoryByFullNameUseCase;
   setStatus: SetRepositoryStatusUseCase;
   synchronize: SynchronizeRepositoryUseCase;
 }
@@ -80,6 +82,31 @@ export class RepositoryController {
       return res.status(200).json(data);
     } catch(error) {
       return handleError(error, res)
+    }
+  }
+
+  public getByFullName = async (req: Request, res: Response) => {
+    try {
+      const workspaceId = req.user?.workspaceId!;
+      const { owner, repo } = req.params;
+      const fullName = `${owner}/${repo}`;
+      const data = await this.useCases.getByFullName.execute(workspaceId, fullName);
+      return res.status(200).json(data);
+    } catch(error) {
+      return handleError(error, res);
+    }
+  }
+
+  public getContributors = async (req: Request, res: Response) => {
+    try {
+      const { owner, repo } = req.params;
+      const userId = req.user?.userId!;
+      const accessToken = await UserRepository.getAccessToken(userId);
+      const githubService = new GitHubService(accessToken);
+      const data = await githubService.getRepositoryContributors(owner as string, repo as string);
+      return res.status(200).json(data);
+    } catch(error) {
+      handleError(error, res);
     }
   }
 
