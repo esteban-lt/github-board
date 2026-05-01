@@ -4,7 +4,7 @@ import { FiltersCard } from "../components/filters-card";
 import { ActivityFeed } from "../components/activity-feed";
 import { useEvents } from "../hooks/use-events";
 import { useActivityStream } from "../hooks/use-activity-stream";
-import { useRepositories } from "@/modules/repositories/hooks/use-repositories";
+import { useRepositories } from "@/modules/repositories/_hooks/use-repositories";
 
 const ActivityFeedPage = () => {
   const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
