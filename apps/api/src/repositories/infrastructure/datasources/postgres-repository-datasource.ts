@@ -117,6 +117,23 @@ export class PostgresRepositoryDatasource implements RepositoryDatasource {
     }
   }
 
+  public async getByFullName(workspaceId: string, fullName: string): Promise<Repository | null> {
+    try {
+      const repository = await prisma.repository.findFirst({ 
+        where: {
+          workspaceId,
+          fullName: fullName
+        }
+       });
+       if(!repository) throw ResponseError.notFound('Repository not founr');
+       return RepositoryMapper.fromObject(repository);
+    } catch(error) {
+      if(error instanceof ResponseError) throw error;
+      console.log(error);
+      throw ResponseError.internalServerError();
+    }
+  }
+
   public async setStatus(id: string, isActive: boolean): Promise<void> {
     await prisma.repository.update({
       where: { id },

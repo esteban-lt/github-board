@@ -84,6 +84,16 @@ export class GitHubService {
     };
   }
 
+  public async getRepositoryContributors(owner: string, repo: string) {
+    const { data } = await this.octokit.rest.repos.listContributors({ owner, repo });
+    return data.map(({ login, avatar_url, contributions, html_url }) => ({
+      login,
+      avatarUrl: avatar_url,
+      contributions,
+      htmlUrl: html_url,
+    }));
+  }
+
   public async registerWebhook(owner: string, repo: string, webhookUrl: string): Promise<void> {
     await this.octokit.request('POST /repos/{owner}/{repo}/hooks', {
       owner,

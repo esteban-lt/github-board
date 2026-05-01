@@ -31,9 +31,12 @@ export class EventRepository {
     });
   }
 
-  public async findByWorkspace(workspaceId: string, limit = 50) {
+  public async findByWorkspace(workspaceId: string, repositoryId?: string, limit = 50) {
     return prisma.event.findMany({
-      where: { workspaceId },
+      where: { 
+        workspaceId,
+        ...(repositoryId && { repositoryId }),
+      },
       orderBy: { occurredAt: 'desc' },
       take: limit,
     });

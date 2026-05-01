@@ -30,6 +30,10 @@ export class RepositoryRepositoryImplementation implements RepositoryRepository 
     return this.repositoryDatasource.getByGithubRepoId(githubRepoId);
   }
 
+  public getByFullName(workspaceId: string, fullName: string): Promise<Repository | null> {
+    return this.repositoryDatasource.getByFullName(workspaceId, fullName);
+  }
+
   public setStatus(id: string, isActive: boolean): Promise<void> {
     return this.repositoryDatasource.setStatus(id, isActive);
   }
