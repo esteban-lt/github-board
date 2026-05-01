@@ -27,7 +27,8 @@ export class EventController {
   public getEvents = async (req: Request, res: Response): Promise<void> => {
     try {
       const workspaceId = req.user?.workspaceId!;
-      const events = await this.eventRepository.findByWorkspace(workspaceId);
+      const repositoryId = req.query.repositoryId as string | undefined;
+      const events = await this.eventRepository.findByWorkspace(workspaceId, repositoryId);
       res.status(200).json(events);
     } catch (error) {
       console.error(error);

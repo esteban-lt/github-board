@@ -37,7 +37,10 @@ export class GitHubWebhookService {
   
     console.log(`[Webhook] Saving event for repo: ${repository.id}`);
     await this.eventRepository.create({ ...parsed, repositoryId: repository.id, workspaceId: repository.workspaceId });
-    this.eventService.broadcast(parsed.type, parsed);
+    this.eventService.broadcast(parsed.type, { 
+      ...parsed, 
+      repositoryId: repository.id,
+    });
     console.log(`[Webhook] Event saved and broadcasted`);
   }
 
