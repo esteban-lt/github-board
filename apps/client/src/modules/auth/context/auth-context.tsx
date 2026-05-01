@@ -32,11 +32,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     apiService.get('/api/auth/me')
       .then((response) => {
-        console.log('Auth response:', response.data);
         setUser(response.data.user)
       })
-      .catch((error) => {
-        console.log('Auth error:', error);
+      .catch(() => {
         setUser(null)
       })
       .finally(() => setIsLoading(false));
