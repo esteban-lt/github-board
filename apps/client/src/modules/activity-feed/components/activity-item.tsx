@@ -2,7 +2,9 @@ import { cn } from "@/lib/utils";
 import { Star, GitPullRequest, CircleDot, GitCommitHorizontal, GitFork } from "lucide-react";
 
 export interface ActivityEvent {
+  id: string;
   type: string;
+  repositoryId: string;
   actor: string;
   actorAvatar: string;
   repo: string;
