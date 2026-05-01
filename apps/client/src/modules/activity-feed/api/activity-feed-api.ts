@@ -2,8 +2,8 @@ import apiService from '@/services/api-service';
 
 const activityFeedApi = {
 
-  getEvents: () => {
-    return apiService.get('/api/events')
+  getEvents: (repositoryId?: string) => {
+    return apiService.get('/api/events', { params: { repositoryId } });
   },
 };
 
