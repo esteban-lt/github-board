@@ -46,6 +46,6 @@ export class AuthController {
   }
 
   static me = async (request: Request, response: Response) => {
-    return response.json({ ok: true, user: request.user });
+    return response.json(request.user);
   }
 }

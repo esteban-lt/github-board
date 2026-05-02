@@ -11,6 +11,7 @@ export class AuthRepository {
       },
       update: {
         username: githubUser.login,
+        name: githubUser.name,
         email: githubUser.email,
         avatarUrl: githubUser.avatar_url,
         githubAccessToken: Encryption.encrypt(accessToken),
@@ -18,6 +19,7 @@ export class AuthRepository {
       create: {
         githubId: BigInt(githubUser.id),
         username: githubUser.login,
+        name: githubUser.name,
         email: githubUser.email,
         avatarUrl: githubUser.avatar_url,
         githubAccessToken: Encryption.encrypt(accessToken),

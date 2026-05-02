@@ -18,4 +18,8 @@ export class DashboardService {
   public getCommitActivity(workspaceId: string) {
     return this.dashboardRepository.getCommitActivity(workspaceId);
   }
+
+  public getPendingReviews(userId: string, username: string) {
+    return this.dashboardRepository.getPendingReviews(userId, username);
+  }
 }

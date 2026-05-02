@@ -16,8 +16,8 @@ export class DashboardRoutes {
 
     router.get('/stats', AuthMiddleware.requireAuth, dashboardController.getStats);
     router.get('/top-repositories', AuthMiddleware.requireAuth, dashboardController.getTopRepositories);
-    router.get('/commit-activity', AuthMiddleware.requireAuth, dashboardController.getCommitActivity)
-    // router.use('/api/dashboard/recent-activity');
+    router.get('/commit-activity', AuthMiddleware.requireAuth, dashboardController.getCommitActivity);
+    router.get('/pending-reviews', AuthMiddleware.requireAuth, dashboardController.getPendingReviews);
 
     return router;
   }

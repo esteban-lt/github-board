@@ -10,7 +10,7 @@ export interface DashboardStatCard {
   title: string;
   metric: number;
   caption?: string;
-  trend?: StatTrend;
+  trend?: StatTrend | null;
   icon?: LucideIcon;
   iconClassName?: string;
   sparkline?: number[];

@@ -1,11 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { PropsWithChildren } from 'react';
 import apiService from '@/services/api-service';
-
-interface User {
-  userId: string;
-  githubId: number;
-}
+import type { User } from '@/interfaces/user';
 
 interface AuthContext {
   user: User | null;
@@ -32,7 +28,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     apiService.get('/api/auth/me')
       .then((response) => {
-        setUser(response.data.user)
+        setUser(response.data)
       })
       .catch(() => {
         setUser(null)

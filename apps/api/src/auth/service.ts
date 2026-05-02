@@ -19,7 +19,6 @@ export class AuthService {
     });
 
     const data: any = await response.json();
-    console.log('GitHub token response:', data);
     if (data.error) throw new Error(data.error_description ?? 'GitHub OAuth error');
     return data.access_token;
   }

@@ -4,5 +4,5 @@ export interface RecentActivityEvent {
   action: string;
   repositoryFullName: string;
   date: string;
-  eventType: 'star' | 'pull_request' | 'issue' | 'push' | 'fork';
+  eventType: 'star' | 'pull_request' | 'issues' | 'push' | 'fork';
 }

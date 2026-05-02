@@ -16,6 +16,7 @@ model User {
   id                  String    @id @default(uuid())
   githubId            BigInt    @unique @map("github_id")
   username            String    @db.VarChar(127)
+  name                String    @db.VarChar(255)
   email               String?   @db.VarChar(255)
   avatarUrl           String?   @map("avatar_url")
   githubAccessToken   String?   @map("github_access_token")

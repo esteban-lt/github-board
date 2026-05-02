@@ -10,6 +10,9 @@ const dashboardApi = {
   getCommitActivity: () => {
     return apiService.get('/api/dashboard/commit-activity');
   },
+  getPendingReviews: () => {
+    return apiService.get('/api/dashboard/pending-reviews');
+  }
 };
 
 export default dashboardApi;

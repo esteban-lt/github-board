@@ -1,11 +1,16 @@
 import type { Request, Response, NextFunction } from 'express';
 import JWT from '@plugins/jwt';
 import { WorkspaceRepository } from '@workspaces/workspace-repository';
+import { UserRepository } from '@users/user-repository';
 
 export interface SessionPayload {
   userId: string;
   githubId: number;
   workspaceId: string;
+  name: string | null;
+  username: string;
+  email: string | null;
+  avatarUrl: string | null;
 }
 
 declare global {
@@ -26,10 +31,12 @@ export class AuthMiddleware {
       const payload = await JWT.verifyToken(token);
       const sessionPayload = payload as unknown as SessionPayload;
 
+      const user = await UserRepository.getById(sessionPayload.userId);
       const workspace = await WorkspaceRepository.getByOwnerId(sessionPayload.userId);
       sessionPayload.workspaceId = workspace.id;
 
-      request.user = sessionPayload;
+      request.user = { ...sessionPayload, ...user };
+
       next();
     }
     catch {

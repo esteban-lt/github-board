@@ -14,16 +14,16 @@ export const StatGrid = ({ stats, isLoading = false }: Props) => {
     <div className="grid gap-4 grid-cols-2 xl:grid-cols-5">
       {isLoading
         ? Array.from({ length: 5 }).map((_, i) => (
-            <Card key={i} className="gap-0">
+            <Card key={i} className="gap-2 h-33">
               <CardHeader>
-                <Skeleton className="h-2 w-12" />
+                <Skeleton className="h-4 w-16" />
               </CardHeader>
                     
               <CardContent>
-                <Skeleton className="h-20 w-8" />
+                <Skeleton className="h-10 w-8" />
               </CardContent>    
                     
-              <CardFooter>
+              <CardFooter className="flex-1 items-end">
                 <Skeleton className="h-2 w-32" />
               </CardFooter>
             </Card>
