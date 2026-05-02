@@ -23,4 +23,11 @@ export class DashboardController {
     const data = await this.dashboardService.getCommitActivity(workspaceId);
     return res.status(200).json(data);
   }
+
+  public getPendingReviews = async (req: Request, res: Response) => {
+    const userId   = req.user?.userId!;
+    const username = req.user?.username!;
+    const reviews  = await this.dashboardService.getPendingReviews(userId, username);
+    return res.status(200).json(reviews);
+  }
 }
