@@ -5,7 +5,7 @@ import type { RecentActivityEvent } from "../interfaces/recent-activity-event";
 const eventConfig: Record<RecentActivityEvent['eventType'], { icon: React.ElementType; className: string }> = {
   star:         { icon: Star,                className: "text-yellow-500 bg-yellow-50"  },
   pull_request: { icon: GitPullRequest,      className: "text-green-500 bg-green-50"   },
-  issue:        { icon: CircleDot,           className: "text-red-500 bg-red-50"       },
+  issues:        { icon: CircleDot,           className: "text-red-500 bg-red-50"       },
   push:         { icon: GitCommitHorizontal, className: "text-purple-500 bg-purple-50" },
   fork:         { icon: GitFork,             className: "text-blue-500 bg-blue-50"     },
 };
