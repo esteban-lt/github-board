@@ -2,15 +2,14 @@ import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PendingReviewItem } from "./pending-review-item";
 import type { PendingReviewItemData } from "./pending-review-item";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// Pasar prop después en lugar del mock aquí
-const mockPendingReviews: PendingReviewItemData[] = [
-  { id: '1', title: 'Introduce structured error envelope',       repo: 'atlas-api',   prNumber: 843, additions: 421, deletions: 88,  status: 'review',  url: '#', author: 'AN', authorAvatarUrl: 'https://i.pravatar.cc/32?u=an'  },
-  { id: '2', title: 'Replace legacy modal with Drawer primitive', repo: 'pulse-web',  prNumber: 318, additions: 312, deletions: 204, status: 'review',  url: '#', author: 'PS', authorAvatarUrl: 'https://i.pravatar.cc/32?u=ps'  },
-  { id: '3', title: 'Add PKCE flow for native clients',           repo: 'cypher-auth', prNumber: 77, additions: 178, deletions: 12, status: 'changes', url: '#', author: 'MH', authorAvatarUrl: 'https://i.pravatar.cc/32?u=mh'  },
-];
+interface Props {
+  reviews: PendingReviewItemData[];
+  isLoading: boolean;
+}
 
-export const PendingReviews = () => {
+export const PendingReviews = ({ reviews, isLoading }: Props) => {
   return (
     <Card>
       <CardHeader className="flex flex-row items-start justify-between">
@@ -21,12 +20,27 @@ export const PendingReviews = () => {
       </CardHeader>
 
       <CardContent className="flex flex-col">
-        {mockPendingReviews.map((item, index) => (
-          <div key={item.id}>
-            <PendingReviewItem {...item} />
-            {index < mockPendingReviews.length - 1 && <Separator />}
-          </div>
-        ))}
+        {isLoading ? (
+          Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-3 py-3">
+              <Skeleton className="size-8 rounded-full shrink-0" />
+              <div className="flex flex-col gap-2 flex-1">
+                <Skeleton className="h-3 w-48" />
+                <Skeleton className="h-3 w-32" />
+              </div>
+              <Skeleton className="h-6 w-16 shrink-0" />
+            </div>
+          ))
+        ) : reviews.length === 0 ? (
+          <p className="text-sm text-muted-foreground py-4 text-center">No pending reviews</p>
+        ) : (
+          reviews.map((item, index) => (
+            <div key={item.id}>
+              <PendingReviewItem {...item} />
+              {index < reviews.length - 1 && <Separator />}
+            </div>
+          ))
+        )}
       </CardContent>
     </Card>
   );
