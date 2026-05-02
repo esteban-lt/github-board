@@ -1,5 +1,3 @@
-import { Activity } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { RecentActivityItem } from "./recent-activity-item";
 import type { RecentActivityEvent } from "../interfaces/recent-activity-event";
@@ -18,13 +16,12 @@ export const RecentActivity = ({ activity }: Props) => {
         <CardDescription>Latest events from your repositories</CardDescription>
       </CardHeader>
 
-      <CardContent className="flex flex-col">
-        {activity.map((event, index) => (
-          <div key={event.id}>
-            <RecentActivityItem {...event} />
-            {index < activity.length - 1 && <Separator />}
-          </div>
-        ))}
+      <CardContent>
+        <div className="divide-y">
+          {activity.map((event) => (
+            <RecentActivityItem key={event.id} {...event} />
+          ))}
+        </div>
       </CardContent>
     </Card>
   );
