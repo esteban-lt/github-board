@@ -14,8 +14,9 @@ import { RefreshCw } from "lucide-react";
 import { PendingReviews } from "../components/pending-reviews";
 import { CommitActivity } from "../components/commit-activity";
 import { useNavigate } from "react-router";
+import { useAuth } from "@/modules/auth/context/auth-context";
+import { usePendingReviews } from "../hooks/use-pending-reviews";
 
-const mockSparkline = [2, 5, 3, 8, 4, 9, 6];
 const RECENT_ACTIVITY_LIMIT = 6;
 
 const mapActivityEvent = (event: ActivityEvent, index: number): RecentActivityEvent => ({
@@ -30,25 +31,68 @@ const mapActivityEvent = (event: ActivityEvent, index: number): RecentActivityEv
 const getGreeting = () => {
   const hour = new Date().getHours();
   if (hour < 12) return 'Good morning';
-  if (hour < 18) return 'Good afternoon';
+  if (hour < 19) return 'Good afternoon';
   return 'Good evening';
 };
 
 const Index = () => {
 
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const name = user?.name?.split(' ')[0] ?? user?.username ?? '';
 
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
   const { data: topRepositories, isLoading: topRepositoriesLoading } = useTopRepositories();
+  const { data: pendingReviews = [], isLoading: pendingReviewsLoading } = usePendingReviews();
   const { data: events = [] } = useEvents();
   useActivityStream();
 
   const statsCards: DashboardStatCard[] = [
-    { title: "Open PRs",     metric: stats?.openPullRequests ?? 0, sparkline: mockSparkline, trend: { value: 12, label: 'vs last week', type: 'percent' } },
-    { title: "Open issues",  metric: stats?.openIssues ?? 0,       sparkline: mockSparkline, trend: { value: -3, label: 'vs last week', type: 'delta'   } },
-    { title: "Commits · 7d", metric: stats?.commits7d ?? 0,        sparkline: mockSparkline, trend: { value: 18, label: 'vs last week', type: 'percent' } },
-    { title: "Total stars",  metric: stats?.totalStars ?? 0,       sparkline: mockSparkline, trend: { value: 1,  label: 'this week',   type: 'delta'   } },
-    { title: "Total forks",  metric: stats?.totalForks ?? 0,       sparkline: mockSparkline, caption: 'Across all repositories' },
+    {
+      title: "Open PRs",
+      metric: stats?.openPullRequests ?? 0,
+      sparkline: stats?.sparklines.openPRs,
+      trend: stats?.trends.openPRs != null
+        ? { value: stats.trends.openPRs, label: 'vs last week', type: 'percent' }
+        : undefined,
+      caption: stats?.trends.openPRs == null ? 'No data from last week' : undefined,
+    },
+    {
+      title: "Open issues",
+      metric: stats?.openIssues ?? 0,
+      sparkline: stats?.sparklines.openIssues,
+      trend: stats?.trends.openIssues != null
+        ? { value: stats.trends.openIssues, label: 'vs last week', type: 'percent' }
+        : undefined,
+      caption: stats?.trends.openIssues == null ? 'No data from last week' : undefined,
+    },
+    {
+      title: "Commits · 7d",
+      metric: stats?.commits7d ?? 0,
+      sparkline: stats?.sparklines.commits,
+      trend: stats?.trends.commits != null
+        ? { value: stats.trends.commits, label: 'vs last week', type: 'percent' }
+        : undefined,
+      caption: stats?.trends.commits == null ? 'No data from last week' : undefined,
+    },
+    {
+      title: "Total stars",
+      metric: stats?.totalStars ?? 0,
+      sparkline: stats?.sparklines.totalStars,
+      trend: stats?.trends.totalStars != null
+        ? { value: stats.trends.totalStars, label: 'vs last week', type: 'percent' }
+        : undefined,
+      caption: stats?.trends.totalStars == null ? 'No data from last week' : undefined,
+    },
+    {
+      title: "Total forks",
+      metric: stats?.totalForks ?? 0,
+      sparkline: stats?.sparklines.totalForks,
+      trend: stats?.trends.totalForks != null
+        ? { value: stats.trends.totalForks, label: 'vs last week', type: 'percent' }
+        : undefined,
+      caption: stats?.trends.totalForks == null ? 'No data from last week' : undefined,
+    },
   ];
 
   const recentActivity = events
@@ -58,7 +102,7 @@ const Index = () => {
   return (
     <>
       <Header
-        title={`${getGreeting()}, Esteban`}
+        title={`${getGreeting()}, ${name}`}
         description="Monitor your GitHub repositories activity"
         actions={
           <div className="flex gap-2">
@@ -71,7 +115,10 @@ const Index = () => {
       <StatGrid stats={statsCards} isLoading={statsLoading} />
 
       <div className="grid gap-4 grid-cols-1 lg:grid-cols-[2fr_1fr]">
-        <PendingReviews />
+        <PendingReviews 
+          reviews={pendingReviews} 
+          isLoading={pendingReviewsLoading} 
+        />
         <CommitActivity />
       </div>
 
