@@ -1,3 +1,4 @@
+import { handleApiError } from "@/lib/handle-api-error";
 import repositoryApi from "../_api/repository-api";
 
 export const disconnectRepositoryAction = async (id: string) => {
@@ -5,6 +6,6 @@ export const disconnectRepositoryAction = async (id: string) => {
     const response = await repositoryApi.disconnect(id);
     return response.data;
   } catch(error) {
-    throw new Error('Error disconnecting repository');
+    handleApiError(error);
   }
 }
