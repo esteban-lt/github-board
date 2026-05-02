@@ -54,7 +54,7 @@ export const StatCard = ({ title, metric, caption, trend, sparkline }: Dashboard
               </linearGradient>
             </defs>
             <Area
-              type="monotone"
+              type="linear"
               dataKey="value"
               stroke="var(--color-value)"
               strokeWidth={1.5}
@@ -67,7 +67,7 @@ export const StatCard = ({ title, metric, caption, trend, sparkline }: Dashboard
         </ChartContainer>
       )}
 
-      <CardFooter>
+      <CardFooter className="mt-1">
         {trend ? <TrendBadge trend={trend} /> : <p className="text-xs text-muted-foreground">{caption}</p>}
       </CardFooter>
     </Card>
