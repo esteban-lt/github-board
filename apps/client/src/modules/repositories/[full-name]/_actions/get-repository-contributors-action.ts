@@ -1,3 +1,4 @@
+import { handleApiError } from "@/lib/handle-api-error";
 import repositoryApi from "../../_api/repository-api";
 
 export const getRepositoryContributorsAction = async (owner: string, repo: string) => {
@@ -5,6 +6,6 @@ export const getRepositoryContributorsAction = async (owner: string, repo: strin
     const response = await repositoryApi.getContributors(owner, repo);
     return response.data;
   } catch(error) {
-    throw new Error('Error getting repositoriy contributors');
+    handleApiError(error);
   }
 }

@@ -1,5 +1,6 @@
 import type { Repository } from '@/interfaces/repository';
 import repositoryApi from '../_api/repository-api';
+import { handleApiError } from '@/lib/handle-api-error';
 
 interface GetRepositoriesParams {
   page?: number;
@@ -17,11 +18,11 @@ export interface PaginatedRepositoriesResponse {
   totalPages: number;
 }
 
-export const getRepositoriesAction = async (params?: GetRepositoriesParams): Promise<PaginatedRepositoriesResponse> => {
+export const getRepositoriesAction = async (params?: GetRepositoriesParams) => {
   try {
     const response = await repositoryApi.getAll(params);
     return response.data;
   } catch(error) {
-    throw new Error('Error getting repositories');
+    handleApiError(error);
   }
 }

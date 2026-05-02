@@ -1,3 +1,4 @@
+import { handleApiError } from '@/lib/handle-api-error';
 import dashboardApi from '../api/dashboard-api';
 
 export const getTopRepositoriesAction = async () => {
@@ -5,6 +6,6 @@ export const getTopRepositoriesAction = async () => {
     const response = await dashboardApi.getTopRepositories();
     return response.data;
   } catch(error) {
-    throw new Error('Error getting top repositories');
+    handleApiError(error);
   }
 }

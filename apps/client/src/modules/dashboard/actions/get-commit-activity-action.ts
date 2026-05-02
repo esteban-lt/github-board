@@ -1,3 +1,4 @@
+import { handleApiError } from "@/lib/handle-api-error";
 import dashboardApi from "../api/dashboard-api";
 
 export const getCommitActivityAction = async () => {
@@ -5,6 +6,6 @@ export const getCommitActivityAction = async () => {
     const response = await dashboardApi.getCommitActivity();
     return response.data;
   } catch(error) {
-    throw new Error('Error getting commit activity');
+    handleApiError(error);
   }
 }

@@ -1,3 +1,4 @@
+import { handleApiError } from '@/lib/handle-api-error';
 import dashboardApi from '../api/dashboard-api';
 
 export const getPendingReviewsAction = async () => {
@@ -5,7 +6,7 @@ export const getPendingReviewsAction = async () => {
     const response = await dashboardApi.getPendingReviews();
     return response.data;
   } catch(error) {
-    throw new Error('Error getting pending reviews');
+    handleApiError(error);
   }
 }
 
