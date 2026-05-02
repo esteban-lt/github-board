@@ -39,12 +39,12 @@ export const TopRepositories = ({ repositories, isLoading = false }: Props) => {
                 {i < SKELETON_COUNT - 1 && <Separator />}
               </div>
             ))
-          : repositories.map((repository, index) => (
-              <div key={repository.id}>
-                <TopRepository {...repository} />
-                {index < repositories.length - 1 && <Separator />}
-              </div>
-            ))
+          : 
+          <div className="divide-y">
+            {repositories.map((repository) => (
+              <TopRepository key={repository.id} {...repository} />
+            ))}
+          </div>
         }
       </CardContent>
     </Card>
