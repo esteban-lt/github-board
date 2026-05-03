@@ -19,6 +19,9 @@ generated
 npm-debug.log*
 bun-debug.log*
 
+# Local tooling
+.claude/
+
 # OS
 .DS_Store
 Thumbs.db
