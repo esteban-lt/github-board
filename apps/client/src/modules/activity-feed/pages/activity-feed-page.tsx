@@ -10,8 +10,8 @@ const ActivityFeedPage = () => {
   const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
   const [selectedPeople, setSelectedPeople] = useState<string[]>([]);
 
-  const { data: events = [] } = useEvents();
-  const { data: repositoriesPage } = useRepositories({ limit: 1000 });
+  const { data: events = [], isLoading: eventsLoading } = useEvents();
+  const { data: repositoriesPage, isLoading: repositoriesLoading } = useRepositories({ limit: 1000 });
   const repositories = repositoriesPage?.data ?? [];
   useActivityStream();
 
@@ -35,12 +35,13 @@ const ActivityFeedPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 items-start">
 
         {/* Feed */}
-        <ActivityFeed events={filteredEvents} />
+        <ActivityFeed events={filteredEvents} isLoading={eventsLoading} />
 
         {/* Filters */}
         <FiltersCard
           events={events}
           repositories={repositories}
+          isLoading={repositoriesLoading}
           selectedRepo={selectedRepo}
           onRepoChange={setSelectedRepo}
           selectedPeople={selectedPeople}
