@@ -44,7 +44,7 @@ const Index = () => {
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
   const { data: topRepositories, isLoading: topRepositoriesLoading } = useTopRepositories();
   const { data: pendingReviews = [], isLoading: pendingReviewsLoading } = usePendingReviews();
-  const { data: events = [] } = useEvents();
+  const { data: events = [], isLoading: eventsLoading } = useEvents();
   useActivityStream();
 
   const statsCards: DashboardStatCard[] = [
@@ -123,7 +123,7 @@ const Index = () => {
       </div>
 
       <div className="grid gap-4 grid-cols-1 lg:grid-cols-[2fr_1fr]">
-        <RecentActivity activity={recentActivity} />
+        <RecentActivity activity={recentActivity} isLoading={eventsLoading} />
         <TopRepositories
           repositories={topRepositories ?? []}
           isLoading={topRepositoriesLoading}

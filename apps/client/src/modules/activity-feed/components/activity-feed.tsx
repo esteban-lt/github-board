@@ -1,7 +1,9 @@
 import { useState, useMemo } from "react";
+import { Activity } from "lucide-react";
 import { ActivityItem } from "./activity-item";
 import type { ActivityEvent } from "./activity-item";
 import { Card } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const TAB_FILTERS: { label: string; type: string | null }[] = [
   { label: "All",          type: null          },
@@ -37,11 +39,14 @@ const groupByDate = (events: ActivityEvent[]) => {
   return groups;
 };
 
+const SKELETON_COUNT = 8;
+
 interface Props {
   events: ActivityEvent[];
+  isLoading: boolean;
 }
 
-export const ActivityFeed = ({ events }: Props) => {
+export const ActivityFeed = ({ events, isLoading }: Props) => {
   const [activeTab, setActiveTab] = useState<string | null>(null);
 
   const countByType = useMemo(() => {
@@ -91,27 +96,53 @@ export const ActivityFeed = ({ events }: Props) => {
         })}
       </div>
       
-      {/* Grouped events */}
-      {Object.entries(grouped).map(([dateLabel, dateEvents]) => (
-        <div key={dateLabel}>
-          <div className="px-4 py-2 border-b border-t flex items-center">
-            <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-              {dateLabel} · {dateEvents.length} {dateEvents.length === 1 ? "event" : "events"}
-            </span>
-          </div>
-          <div className="divide-y">
-            {dateEvents.map((event, index) => (
-              <ActivityItem key={index} event={event} />
-            ))}
-          </div>
+      {/* Loading skeleton */}
+      {isLoading ? (
+        <div className="divide-y">
+          {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
+            <div key={i} className="flex items-start gap-4 px-4 py-3.5">
+              <Skeleton className="size-8 rounded-full shrink-0 mt-0.5" />
+              <div className="flex flex-col gap-2 flex-1">
+                <div className="flex items-start justify-between gap-4">
+                  <Skeleton className="h-3.5 w-56" />
+                  <Skeleton className="h-3 w-12 shrink-0" />
+                </div>
+                <Skeleton className="h-3 w-40" />
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-  
-      {filteredEvents.length === 0 && (
+      ) : events.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
-          <p className="text-sm font-medium">No events found</p>
-          <p className="text-xs text-muted-foreground mt-1">Try selecting a different filter</p>
+          <Activity className="size-8 text-muted-foreground mb-3" />
+          <p className="text-sm font-medium">No activity yet</p>
+          <p className="text-xs text-muted-foreground mt-1">Events from your connected repositories will appear here</p>
         </div>
+      ) : (
+        <>
+          {/* Grouped events */}
+          {Object.entries(grouped).map(([dateLabel, dateEvents]) => (
+            <div key={dateLabel}>
+              <div className="px-4 py-2 border-b border-t flex items-center">
+                <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  {dateLabel} · {dateEvents.length} {dateEvents.length === 1 ? "event" : "events"}
+                </span>
+              </div>
+              <div className="divide-y">
+                {dateEvents.map((event, index) => (
+                  <ActivityItem key={index} event={event} />
+                ))}
+              </div>
+            </div>
+          ))}
+
+          {filteredEvents.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <p className="text-sm font-medium">No events found</p>
+              <p className="text-xs text-muted-foreground mt-1">Try selecting a different filter</p>
+            </div>
+          )}
+        </>
       )}
   
     </Card>

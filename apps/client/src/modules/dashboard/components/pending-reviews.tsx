@@ -1,8 +1,9 @@
+import { GitPullRequest } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 import { PendingReviewItem } from "./pending-review-item";
 import type { PendingReviewItemData } from "./pending-review-item";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props {
   reviews: PendingReviewItemData[];
@@ -32,7 +33,11 @@ export const PendingReviews = ({ reviews, isLoading }: Props) => {
             </div>
           ))
         ) : reviews.length === 0 ? (
-          <p className="text-sm text-muted-foreground py-4 text-center">No pending reviews</p>
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <GitPullRequest className="size-8 text-muted-foreground mb-3" />
+            <p className="text-sm font-medium">No pending reviews</p>
+            <p className="text-xs text-muted-foreground mt-1">Pull requests waiting for your review will appear here</p>
+          </div>
         ) : (
           reviews.map((item, index) => (
             <div key={item.id}>

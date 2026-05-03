@@ -1,3 +1,4 @@
+import { BookMarked } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,12 +40,19 @@ export const TopRepositories = ({ repositories, isLoading = false }: Props) => {
                 {i < SKELETON_COUNT - 1 && <Separator />}
               </div>
             ))
-          : 
-          <div className="divide-y">
-            {repositories.map((repository) => (
-              <TopRepository key={repository.id} {...repository} />
-            ))}
-          </div>
+          : repositories.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <BookMarked className="size-8 text-muted-foreground mb-3" />
+              <p className="text-sm font-medium">No repositories</p>
+              <p className="text-xs text-muted-foreground mt-1">Connect a repository to see activity here</p>
+            </div>
+          ) : (
+            <div className="divide-y">
+              {repositories.map((repository) => (
+                <TopRepository key={repository.id} {...repository} />
+              ))}
+            </div>
+          )
         }
       </CardContent>
     </Card>

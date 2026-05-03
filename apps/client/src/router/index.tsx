@@ -1,6 +1,8 @@
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router';
 import ProtectedRoute from '@/components/auth/protected-route';
+import ErrorPage from '@/pages/error-page';
+import NotFoundPage from '@/pages/not-found';
 
 import AuthPage from '@/modules/auth/pages/auth-page';
 import AppLayout from '@/layouts/app-layout';
@@ -19,6 +21,7 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <ProtectedRoute />,
+    errorElement: <ErrorPage />,
     children: [
       {
         element: <AppLayout />,
@@ -51,5 +54,9 @@ export const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
   },
 ]);
