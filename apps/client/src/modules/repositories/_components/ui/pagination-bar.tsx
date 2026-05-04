@@ -1,6 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useSidebar } from "@/components/ui/sidebar";
 
 interface Props {
   page: number;
@@ -27,23 +26,13 @@ function getPageWindow(current: number, total: number): (number | "...")[] {
 }
 
 export const PaginationBar = ({ page, totalPages, hasNextPage, onPageChange }: Props) => {
-  const { state, isMobile } = useSidebar();
-
-  const leftOffset = isMobile
-    ? "0px"
-    : state === "collapsed"
-    ? "var(--sidebar-width-icon)"
-    : "var(--sidebar-width)";
 
   const isFirst = page === 1;
   const isLast = totalPages !== undefined ? page >= totalPages : !hasNextPage;
   const pages = totalPages !== undefined ? getPageWindow(page, totalPages) : null;
 
   return (
-    <div
-      className="fixed bottom-0 right-0 z-10 bg-background border-t transition-[left] duration-200 ease-linear"
-      style={{ left: leftOffset }}
-    >
+    <div className="flex items-center justify-center gap-1 w-full">
       <div className="flex items-center justify-center gap-1 h-14 px-6">
 
         <Button

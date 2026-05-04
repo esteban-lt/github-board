@@ -9,7 +9,7 @@ interface Props {
 
 export const Header = ({ title, titleSlot, description, actions }: Props) => {
   return (
-    <div className="flex justify-between items-start">
+    <div className="flex flex-col md:flex-row justify-between items-start gap-2">
       <div>
         <div className="flex items-center gap-2">
           <h1 className="text-xl font-bold">{title}</h1>

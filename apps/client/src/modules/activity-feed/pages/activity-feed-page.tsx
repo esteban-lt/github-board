@@ -5,6 +5,9 @@ import { ActivityFeed } from "../components/activity-feed";
 import { useEvents } from "../hooks/use-events";
 import { useActivityStream } from "../hooks/use-activity-stream";
 import { useRepositories } from "@/modules/repositories/_hooks/use-repositories";
+import { Popover as PopoverPrimitive } from "radix-ui";
+import { Button } from "@/components/ui/button";
+import { SlidersHorizontal } from "lucide-react";
 
 const ActivityFeedPage = () => {
   const [selectedRepo, setSelectedRepo] = useState<string | null>(null);
@@ -25,6 +28,16 @@ const ActivityFeedPage = () => {
     });
   }, [events, selectedRepo, selectedPeople]);
 
+  const filtersProps = {
+    events,
+    repositories,
+    isLoading: repositoriesLoading,
+    selectedRepo,
+    onRepoChange: setSelectedRepo,
+    selectedPeople,
+    onPeopleChange: setSelectedPeople,
+  };
+
   return (
     <>
       <Header
@@ -32,21 +45,31 @@ const ActivityFeedPage = () => {
         description="Real-time activity across all your connected repositories"
       />
 
+      <div className="flex justify-end mb-2 lg:hidden">
+        <PopoverPrimitive.Root>
+          <PopoverPrimitive.Trigger asChild>
+            <Button variant="outline" size="sm" className="flex items-center gap-2">
+              <SlidersHorizontal className="size-4" />
+              Filter
+            </Button>
+          </PopoverPrimitive.Trigger>
+          <PopoverPrimitive.Content
+            align="end"
+            sideOffset={8}
+            className="z-50 w-70 rounded-lg border border-border bg-popover p-0 shadow-md outline-none"
+          >
+            <FiltersCard {...filtersProps} />
+          </PopoverPrimitive.Content>
+        </PopoverPrimitive.Root>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 items-start">
 
-        {/* Feed */}
         <ActivityFeed events={filteredEvents} isLoading={eventsLoading} />
 
-        {/* Filters */}
-        <FiltersCard
-          events={events}
-          repositories={repositories}
-          isLoading={repositoriesLoading}
-          selectedRepo={selectedRepo}
-          onRepoChange={setSelectedRepo}
-          selectedPeople={selectedPeople}
-          onPeopleChange={setSelectedPeople}
-        />
+        <div className="hidden lg:block">
+          <FiltersCard {...filtersProps} />
+        </div>
 
       </div>
     </>

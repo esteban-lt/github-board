@@ -7,7 +7,7 @@ const AppLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="overflow-x-hidden">
         <Header />    
         <section className="flex flex-col gap-4 p-4">
           <Outlet />
