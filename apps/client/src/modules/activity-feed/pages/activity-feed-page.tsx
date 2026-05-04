@@ -45,7 +45,6 @@ const ActivityFeedPage = () => {
         description="Real-time activity across all your connected repositories"
       />
 
-      {/* Mobile filter button — hidden on lg+ */}
       <div className="flex justify-end mb-2 lg:hidden">
         <PopoverPrimitive.Root>
           <PopoverPrimitive.Trigger asChild>
@@ -66,10 +65,8 @@ const ActivityFeedPage = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-4 items-start">
 
-        {/* Feed */}
         <ActivityFeed events={filteredEvents} isLoading={eventsLoading} />
 
-        {/* Filters — hidden on small screens, visible on lg+ */}
         <div className="hidden lg:block">
           <FiltersCard {...filtersProps} />
         </div>
