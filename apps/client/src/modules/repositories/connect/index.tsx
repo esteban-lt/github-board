@@ -56,7 +56,7 @@ const Index = () => {
         }
       />
 
-      <div className="pb-14">
+      <div>
         <GitHubRepositoryGrid
           githubRepositories={githubData?.data}
           connectedRepositories={connectedRepositories}

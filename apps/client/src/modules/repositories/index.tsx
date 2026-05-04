@@ -64,7 +64,7 @@ const Index = () => {
         onViewChange={filters.setView}
       />
 
-      <div className="pb-14">
+      <div>
         {filters.view === "grid" ? (
           <RepositoriesGrid
             repositories={filtered}
