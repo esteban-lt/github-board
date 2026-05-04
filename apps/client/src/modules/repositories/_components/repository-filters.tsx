@@ -60,7 +60,6 @@ export const RepositoryFilters = ({
 
   return (
     <>
-      {/* lg+ layout — unchanged */}
       <div className="hidden lg:flex items-center gap-2">
         <RepositorySearch value={search} onChange={onSearchChange} />
         <RepositoryStatusTabs value={status} onChange={onStatusChange} counts={counts} />
@@ -71,7 +70,6 @@ export const RepositoryFilters = ({
         </div>
       </div>
 
-      {/* < lg layout — search + view toggle + filters dropdown */}
       <div className="flex lg:hidden items-center gap-2">
         <RepositorySearch value={search} onChange={onSearchChange} />
         <div className="flex items-center ml-auto gap-1">
