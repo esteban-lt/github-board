@@ -73,7 +73,7 @@ export const ActivityFeed = ({ events, isLoading }: Props) => {
     <Card className="overflow-hidden p-0 gap-0">
     
       {/* Tabs */}
-      <div className="flex items-center gap-1 flex-wrap px-4 py-3">
+      <div className="flex items-center gap-1 overflow-x-auto lg:flex-wrap px-4 py-3">
         {TAB_FILTERS.map(tab => {
           const count = getTabCount(tab.type);
           const isActive = activeTab === tab.type;
