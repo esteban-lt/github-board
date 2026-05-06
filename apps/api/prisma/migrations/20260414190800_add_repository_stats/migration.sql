@@ -1,7 +1,0 @@
--- AlterTable
-ALTER TABLE "repositories" ADD COLUMN     "forks" INTEGER NOT NULL DEFAULT 0,
-ADD COLUMN     "is_connected" BOOLEAN NOT NULL DEFAULT true,
-ADD COLUMN     "language" VARCHAR(127),
-ADD COLUMN     "open_issues" INTEGER NOT NULL DEFAULT 0,
-ADD COLUMN     "open_pull_requests" INTEGER NOT NULL DEFAULT 0,
-ADD COLUMN     "stars" INTEGER NOT NULL DEFAULT 0;
