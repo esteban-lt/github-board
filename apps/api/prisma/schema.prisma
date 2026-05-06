@@ -66,6 +66,7 @@ model Repository {
   id            String    @id @default(uuid())
   workspaceId   String    @map("workspace_id")
   githubRepoId  BigInt    @map("github_repo_id")
+  webhookId     BigInt    @map("webhook_id")
   name          String    @db.VarChar(127)
   fullName      String    @map("full_name") @db.VarChar(255)
   description   String?
