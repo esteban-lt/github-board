@@ -94,18 +94,32 @@ export class GitHubService {
     }));
   }
 
-  public async registerWebhook(owner: string, repo: string, webhookUrl: string): Promise<void> {
-    await this.octokit.request('POST /repos/{owner}/{repo}/hooks', {
-      owner,
-      repo,
-      name: 'web',
-      active: true,
-      events: ['push', 'pull_request', 'issues', 'star', 'fork'],
-      config: {
-        url: webhookUrl,
-        content_type: 'json',
-        secret: env.GITHUB_WEBHOOK_SECRET,
-      },
-    });
+  public async createWebhook(owner: string, repo: string, webhookUrl: string): Promise<number> {
+    try {
+      const { data } = await this.octokit.request('POST /repos/{owner}/{repo}/hooks', {
+        owner,
+        repo,
+        name: 'web',
+        active: true,
+        events: ['push', 'pull_request', 'issues', 'star', 'fork'],
+        config: {
+          url: webhookUrl,
+          content_type: 'json',
+          secret: env.GITHUB_WEBHOOK_SECRET,
+        },
+      });
+      return data.id;
+    } catch (error: any) {
+      if (error.status === 422) {
+        const { data: hooks } = await this.octokit.rest.repos.listWebhooks({ owner, repo });
+        const existing = hooks.find(h => h.config.url === webhookUrl);
+        if (existing) return existing.id;
+      }
+      throw error;
+    }
+  }
+
+  public async deleteWebhook(owner: string, repo: string, hookId: number): Promise<void> {
+    await this.octokit.rest.repos.deleteWebhook({ owner, repo, hook_id: hookId });
   }
 }
