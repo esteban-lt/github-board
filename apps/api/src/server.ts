@@ -1,7 +1,8 @@
 import express, { Router } from 'express';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { env } from './plugins/env';
+import { helmetAdapter } from '@plugins/helmet';
+import { rateLimitAdapter } from '@plugins/rate-limit';
+import { corsAdapter } from '@plugins/cors';
 
 interface Options {
   port: number;
@@ -20,13 +21,12 @@ export class Server {
   }
 
   start() {
+    this.app.use(helmetAdapter);
+    this.app.use(corsAdapter);
+    this.app.use(rateLimitAdapter);
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(cookieParser());
-    this.app.use(cors({
-      origin: env.FRONTEND_URL,
-      credentials: true,
-    }));
     this.app.use(this.routes);
 
     this.app.listen(this.port, () => {
