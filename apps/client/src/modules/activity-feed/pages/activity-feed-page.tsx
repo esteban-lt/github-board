@@ -14,7 +14,7 @@ const ActivityFeedPage = () => {
   const [selectedPeople, setSelectedPeople] = useState<string[]>([]);
 
   const { data: events = [], isLoading: eventsLoading } = useEvents();
-  const { data: repositoriesPage, isLoading: repositoriesLoading } = useRepositories({ limit: 1000 });
+  const { data: repositoriesPage, isLoading: repositoriesLoading } = useRepositories({ limit: 100 });
   const repositories = repositoriesPage?.data ?? [];
   useActivityStream();
 

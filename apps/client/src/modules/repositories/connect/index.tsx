@@ -40,7 +40,7 @@ const Index = () => {
     search: debouncedSearch || undefined,
   });
 
-  const { data: connectedData } = useRepositories({ limit: 1000 });
+  const { data: connectedData } = useRepositories({ limit: 20 });
   const { mutate: connectRepository, isPending, variables } = useConnectRepository();
 
   const connectedRepositories = connectedData?.data ?? [];
