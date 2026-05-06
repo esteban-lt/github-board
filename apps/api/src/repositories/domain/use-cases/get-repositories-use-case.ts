@@ -1,5 +1,6 @@
 import type { RepositoryRepository } from '../repositories/repository-repository';
-import type { GetRepositoriesParams, PaginatedRepositories } from '../types/repository-params';
+import type { PaginatedRepositories } from '../interfaces/paginated-repositories';
+import type { GetRepositoriesDto } from '../dtos/get-repositories-dto';
 
 export class GetRepositoriesUseCase {
 
@@ -7,7 +8,7 @@ export class GetRepositoriesUseCase {
     private readonly repositoryRepository: RepositoryRepository
   ) {}
 
-  public execute(workspaceId: string, params: GetRepositoriesParams): Promise<PaginatedRepositories> {
-    return this.repositoryRepository.getAll(workspaceId, params);
+  public execute(workspaceId: string, dto: GetRepositoriesDto): Promise<PaginatedRepositories> {
+    return this.repositoryRepository.getAll(workspaceId, dto);
   }
 }

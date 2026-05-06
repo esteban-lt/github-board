@@ -2,7 +2,8 @@ import type { RepositoryDatasource } from '../../domain/datasources/repository-d
 import type { GitHubRepository } from '../../domain/entities/github-repository';
 import type { Repository } from '../../domain/entities/repository';
 import type { RepositoryRepository } from '../../domain/repositories/repository-repository';
-import type { GetRepositoriesParams, PaginatedRepositories } from '../../domain/types/repository-params';
+import type { PaginatedRepositories } from '../../domain/interfaces/paginated-repositories';
+import type { GetRepositoriesDto } from '@repositories/domain/dtos/get-repositories-dto';
 
 export class RepositoryRepositoryImplementation implements RepositoryRepository {
 
@@ -10,16 +11,16 @@ export class RepositoryRepositoryImplementation implements RepositoryRepository 
     private readonly repositoryDatasource: RepositoryDatasource
   ) {}
 
-  public connect(githubRepoId: number, workspaceId: string, githubRepository: GitHubRepository): Promise<Repository> {
-    return this.repositoryDatasource.connect(githubRepoId, workspaceId, githubRepository);
+  public connect(githubRepoId: number, workspaceId: string, webhookId: number, githubRepository: GitHubRepository): Promise<Repository> {
+    return this.repositoryDatasource.connect(githubRepoId, workspaceId, webhookId, githubRepository);
   }
 
   public disconnect(id: string): Promise<void> {
     return this.repositoryDatasource.disconnect(id);
   }
 
-  public getAll(workspaceId: string, params: GetRepositoriesParams): Promise<PaginatedRepositories> {
-    return this.repositoryDatasource.getAll(workspaceId, params);
+  public getAll(workspaceId: string, dto: GetRepositoriesDto): Promise<PaginatedRepositories> {
+    return this.repositoryDatasource.getAll(workspaceId, dto);
   }
 
   public getById(id: string): Promise<Repository> {

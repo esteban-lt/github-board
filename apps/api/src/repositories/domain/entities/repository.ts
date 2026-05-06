@@ -2,11 +2,12 @@ interface Options {
   id: string;
   workspaceId: string;
   githubRepoId: number;
+  webhookId: number;
   name: string;
   fullName: string;
-  description: string;
+  description?: string;
   htmlUrl: string;
-  language: string;
+  language?: string;
   stars: number;
   forks: number;
   openIssues: number;
@@ -22,11 +23,12 @@ export class Repository {
   public readonly id: string;
   public readonly workspaceId: string;
   public readonly githubRepoId: number;
+  public readonly webhookId: number;
   public readonly name: string;
   public readonly fullName: string;
-  public readonly description: string;
+  public readonly description?: string;
   public readonly htmlUrl: string;
-  public readonly language: string;
+  public readonly language?: string;
   public readonly stars: number;
   public readonly forks: number;
   public readonly openIssues: number;
@@ -41,6 +43,7 @@ export class Repository {
     this.id = options.id;
     this.workspaceId = options.workspaceId;
     this.githubRepoId = options.githubRepoId;
+    this.webhookId = options.webhookId;
     this.name = options.name;
     this.fullName = options.fullName;
     this.description = options.description;

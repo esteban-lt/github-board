@@ -1,11 +1,12 @@
 import type { Repository } from '../entities/repository';
 import type { GitHubRepository } from '../entities/github-repository';
-import type { GetRepositoriesParams, PaginatedRepositories } from '../types/repository-params';
+import type { GetRepositoriesDto } from '../dtos/get-repositories-dto';
+import type { PaginatedRepositories } from '../interfaces/paginated-repositories';
 
 export interface RepositoryRepository {
-  connect(githubRepoId: number, workspaceId: string, gitHubRepository: GitHubRepository): Promise<Repository>;
+  connect(githubRepoId: number, workspaceId: string, webhookId: number, gitHubRepository: GitHubRepository): Promise<Repository>;
   disconnect(id: string): Promise<void>;
-  getAll(workspaceId: string, params: GetRepositoriesParams): Promise<PaginatedRepositories>;
+  getAll(workspaceId: string, dto: GetRepositoriesDto): Promise<PaginatedRepositories>;
   getById(id: string): Promise<Repository>;
   getByGithubRepoId(githubRepoId: number): Promise<Repository | null>;
   getByFullName(workspaceId: string, fullName: string): Promise<Repository | null>;

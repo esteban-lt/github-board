@@ -15,8 +15,10 @@ export class ConnectRepositoryUseCase {
     githubService: GitHubService,
   ): Promise<Repository> {
     const githubRepository = await githubService.getRepositoryById(githubRepoId);
-    
-    const repository = await this.repositoryRepository.connect(githubRepoId, workspaceId, {
+    const [owner, repo] = githubRepository.fullName.split('/');
+    const webhookId = await githubService.createWebhook(owner, repo, env.WEBHOOK_URL);
+  
+    return this.repositoryRepository.connect(githubRepoId, workspaceId, webhookId, {
       id: githubRepository.id,
       name: githubRepository.name,
       fullName: githubRepository.fullName,
@@ -31,10 +33,5 @@ export class ConnectRepositoryUseCase {
       openPullRequests: githubRepository.openPullRequests,
       ownerAvatarUrl: githubRepository.ownerAvatarUrl,
     });
-
-    const [owner, repo] = githubRepository.fullName.split('/');
-    await githubService.registerWebhook(owner, repo, env.WEBHOOK_URL);
-
-    return repository;
   }
 }
