@@ -85,11 +85,11 @@ export function NavUser({ user }: { user: User }) {
 
             <DropdownMenuSeparator /> 
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem disabled>
                 <CircleUserRound />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem disabled>
                 <Bell />
                 Notifications
               </DropdownMenuItem>
