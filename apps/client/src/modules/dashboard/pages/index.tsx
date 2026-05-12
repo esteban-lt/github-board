@@ -106,7 +106,6 @@ const Index = () => {
         description="Monitor your GitHub repositories activity"
         actions={
           <div className="flex gap-2">
-            <Button variant="outline"><RefreshCw /> Resync all</Button>
             <Button onClick={() => navigate('repositories/connect')}>Connect repository</Button>
           </div>
         }

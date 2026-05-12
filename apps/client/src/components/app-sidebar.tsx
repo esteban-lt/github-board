@@ -2,10 +2,8 @@ import * as React from "react"
 import {
   Activity,
   BookMarked,
-  GalleryVerticalEnd,
   LayoutDashboard,
   Puzzle,
-  Settings2,
   Zap,
 } from "lucide-react"
 
@@ -20,12 +18,13 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { useAuth } from "@/modules/auth/context/auth-context"
+import { Logo } from "./custom/logo"
 
 const data = {
   teams: [
     {
-      name: "GitHub Board",
-      logo: GalleryVerticalEnd,
+      name: "Pulsed",
+      logo: () => <Logo showText={false} />,
       role: "Team Owner",
     },
   ],
@@ -54,11 +53,6 @@ const data = {
       title: "Integrations",
       url: "#",
       icon: Puzzle,
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
     },
   ]
 }
